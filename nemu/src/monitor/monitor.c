@@ -33,7 +33,7 @@ static void welcome() {
   printf("Welcome to %s-NEMU!\n", ANSI_FMT(str(__GUEST_ISA__), ANSI_FG_YELLOW ANSI_BG_RED));
   printf("For help, type \"help\"\n");
   Log("Exercise: Please remove me in the source code and compile NEMU again.");
-  assert(0);
+//  assert(0);
 }
 
 #ifndef CONFIG_TARGET_AM
@@ -75,7 +75,7 @@ static int parse_args(int argc, char *argv[]) {
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
     {"help"     , no_argument      , NULL, 'h'},
-//:    {0          , 0                , NULL,  0 },
+    {0          , 0                , NULL,  0 },
   };
   int o;
   while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
