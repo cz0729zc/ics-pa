@@ -18,6 +18,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include <memory/paddr.h>
 
 
 static int is_batch_mode = false;
@@ -59,6 +60,8 @@ static int cmd_si(char *args);
 
 static int cmd_info(char *args);
 
+static int cmd_x(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -69,6 +72,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single step execution of the program (default 1)", cmd_si },
   { "info r w", "Print register values", cmd_info },
+  { "x", "Scan memory, output N 4-byte data starting from the address specified by EXPR in hexadecimal form", cmd_x },
 
   /* TODO: Add more commands */
 
@@ -120,6 +124,21 @@ static int cmd_info(char *args) {
     else if(strcmp(args, "w") == 0)
         //sdb_watchpoint_display();
         printf("hai mei xie");
+    return 0;
+}
+
+static int cmd_x(char *args){
+    char* n = strtok(args," ");
+    char* baseaddr = strtok(NULL," ");
+    int len = 0;
+    paddr_t addr = 0;
+    sscanf(n, "%d", &len);
+    sscanf(baseaddr,"%x", &addr);
+    for(int i = 0 ; i < len ; i ++)
+    {
+        printf("%x\n",paddr_read(addr,4));//addr len
+        addr = addr + 4;
+    }
     return 0;
 }
 
