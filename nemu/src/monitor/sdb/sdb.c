@@ -57,7 +57,7 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
-static int cmd_info_r(char *args);
+static int cmd_info(char *args);
 
 static struct {
   const char *name;
@@ -68,7 +68,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single step execution of the program (default 1)", cmd_si },
-  { "info r", "Print register values", cmd_info_r },
+  { "info r w", "Print register values", cmd_info },
 
   /* TODO: Add more commands */
 
@@ -112,9 +112,15 @@ static int cmd_si(char *args) {
   return 0;
 }
 
-static int cmd_info_r(char *args) {
-  isa_reg_display();  // Call the API to display register values
-  return 0;
+static int cmd_info(char *args) {
+    if(args == NULL)
+        printf("No args.\n");
+    else if(strcmp(args, "r") == 0)
+        isa_reg_display();
+    else if(strcmp(args, "w") == 0)
+        //sdb_watchpoint_display();
+        printf("hai mei xie");
+    return 0;
 }
 
 
@@ -149,7 +155,7 @@ void sdb_mainloop() {
    }
    
     if (strcmp(cmd, "info") == 0) {
-      cmd_info_r(args);
+      cmd_info(args);
       continue;
     }
 
