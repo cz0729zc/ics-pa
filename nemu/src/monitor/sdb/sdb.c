@@ -19,6 +19,7 @@
 #include <readline/history.h>
 #include "sdb.h"
 
+
 static int is_batch_mode = false;
 
 void init_regex();
@@ -56,6 +57,8 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args);
 
+static int cmd_info_r(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -65,6 +68,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "Single step execution of the program (default 1)", cmd_si },
+  { "info r", "Print register values", cmd_info_r },
 
   /* TODO: Add more commands */
 
@@ -108,6 +112,11 @@ static int cmd_si(char *args) {
   return 0;
 }
 
+static int cmd_info_r(char *args) {
+  isa_reg_display();  // Call the API to display register values
+  return 0;
+}
+
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
@@ -138,6 +147,11 @@ void sdb_mainloop() {
       cmd_si(args);
       continue;
    }
+   
+    if (strcmp(cmd, "info r") == 0) {
+      cmd_info_r(args);
+      continue;
+    }
 
 #ifdef CONFIG_DEVICE
     extern void sdl_clear_event_queue();
