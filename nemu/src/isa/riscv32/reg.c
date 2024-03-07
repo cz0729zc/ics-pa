@@ -26,10 +26,10 @@ const char *regs[] = {
 void isa_reg_display() {
     int i;
     for (i = 0; i < sizeof(regs) / sizeof(regs[0]); i++) {
-        printf("%s: %d\n", regs[i], i);  // Assuming reg[] is an array storing register values
+        printf("%s: %d\n", regs[i], cpu.gpr[i]);  // Assuming reg[] is an array storing register values
     }
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
-  return 0;
+    return 0;
 }
