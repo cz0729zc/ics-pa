@@ -54,6 +54,8 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args);
+
 static struct {
   const char *name;
   const char *description;
@@ -62,6 +64,7 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
+  { "si", "Single step execution of the program (default 1)", cmd_si },
 
   /* TODO: Add more commands */
 
@@ -92,6 +95,20 @@ static int cmd_help(char *args) {
   return 0;
 }
 
+static int cmd_si(char *args) {
+  int step = 1;  // Default step is 1
+  if (args != NULL) {
+    step = atoi(args);
+  }
+
+  for (int i = 0; i < step; i++) {
+    cpu_exec(1);  // Execute one instruction
+  }
+
+  return 0;
+}
+
+
 void sdb_set_batch_mode() {
   is_batch_mode = true;
 }
@@ -101,7 +118,7 @@ void sdb_mainloop() {
     cmd_c(NULL);
     return;
   }
-
+  
   for (char *str; (str = rl_gets()) != NULL; ) {
     char *str_end = str + strlen(str);
 
@@ -116,6 +133,11 @@ void sdb_mainloop() {
     if (args >= str_end) {
       args = NULL;
     }
+
+    if (strcmp(cmd, "si") == 0) {
+      cmd_si(args);
+      continue;
+   }
 
 #ifdef CONFIG_DEVICE
     extern void sdl_clear_event_queue();
