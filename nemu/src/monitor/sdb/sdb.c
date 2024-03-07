@@ -148,7 +148,7 @@ void sdb_mainloop() {
       continue;
    }
    
-    if (strcmp(cmd, "info r") == 0) {
+    if (strcmp(cmd, "info") == 0) {
       cmd_info_r(args);
       continue;
     }
