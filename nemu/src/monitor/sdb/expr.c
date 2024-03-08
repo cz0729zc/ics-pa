@@ -22,7 +22,7 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
-
+  TK_DECIMAL,  // 十进制整数
   /* TODO: Add more token types */
 
 };
@@ -37,8 +37,14 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
   {"==", TK_EQ},        // equal
+  {"[0-9]+", TK_DECIMAL},   // 十进制整数
+  {"\\+", '+'},             // plus
+  {"-", '-'},               // 减法
+  {"\\*", '*'},             // 乘法
+  {"/", '/'},               // 除法
+  {"\\(", '('},             // 左括号
+  {"\\)", ')'},             // 右括号
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -95,7 +101,45 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+	  case TK_DECIMAL:
+            tokens[nr_token].type = TK_DECIMAL;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break;
+	  case '+':
+	    // 处理加法
+	    tokens[nr_token].type = '+';
+	    nr_token++;
+	    break;
+	  case '-':
+	    // 处理减法
+	    tokens[nr_token].type = '-';
+	    nr_token++;
+	    break;
+	  case '*':
+	    // 处理乘法
+	    tokens[nr_token].type = '*';
+	    nr_token++;
+	    break;
+	  case '/':
+	    // 处理除法
+	    tokens[nr_token].type = '/';
+	    nr_token++;
+	    break;
+	  case '(':
+	    // 处理左括号
+	    tokens[nr_token].type = '(';
+	    nr_token++;
+	    break;
+	  case ')':
+	    // 处理右括号
+	    tokens[nr_token].type = ')';
+	    nr_token++;
+	    break;
+	  case TK_NOTYPE:
+	    // 忽略空格串
+	    break;
+          default: printf("wo hai mei xie");
         }
 
         break;
@@ -117,9 +161,21 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
-  /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  
+    int result = atoi(tokens[0].str);
+    for (int i = 1; i < nr_token; i += 2) {
+        int num = atoi(tokens[i + 1].str);
+        if (tokens[i].type == '+') {
+            result += num;
+        } else if (tokens[i].type == '-') {
+            result -= num;
+        } else if (tokens[i].type == '*') {
+            result *= num;
+        } else if (tokens[i].type == '/') {
+            result /= num;
+        }
+    }
+    return result;
 
   return 0;
 }
