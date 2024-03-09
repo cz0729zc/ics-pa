@@ -152,7 +152,7 @@ static int cmd_p(char* args){
     }
     //  printf("args = %s\n", args);
     bool flag = false;
-    expr(args, &flag);
+    printf("%d",expr(args, &flag));
     return 0;
 }
 
