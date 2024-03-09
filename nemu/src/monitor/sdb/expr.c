@@ -313,38 +313,6 @@ static bool make_token(char *e) {
 	    }
 	}
     }
-    //对*指针进行预处理
-    for(int i = 0 ; i < tokens_len ; i ++)
-    {
-	if(	(tokens[i].type == '*' && i > 0 
-		    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
-		    && tokens[i+1].type == TK_DECIMAL 
-		    )
-                ||
-		(tokens[i].type == '*' && i > 0
-                    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
-                    && tokens[i+1].type == HEX
-                    )
-		||
-                (tokens[i].type == '*' && i == 0)
-          )
-		{
-            tokens[i].type = TK_NOTYPE;
-            int tmp = char_int(tokens[i+1].str);
-            uintptr_t a = (uintptr_t)tmp;
-            int value = *((int*)a);
-            int_char(value, tokens[i+1].str);	    
-            // 
-            for(int j = 0 ; j < tokens_len ; j ++){
-                if(tokens[j].type == TK_NOTYPE){
-                    for(int k = j +1 ; k < tokens_len ; k ++){
-                    tokens[k - 1] = tokens[k];
-                }
-                    tokens_len -- ;
-                }
-            }
-		}
-    }
   return true;
 }
 
