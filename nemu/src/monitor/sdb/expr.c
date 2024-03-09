@@ -27,8 +27,14 @@ bool division_zero = false;
 
 enum {
   TK_NOTYPE = 256, 
-  TK_EQ,
   TK_DECIMAL,  // 十进制整数
+  RESGISTER,
+  HEX,
+  TK_EQ = 1 ,
+  TK_LEQ = 2,     //261
+  TK_NOTEQ = 3,
+  OR = 4,
+  AND = 5,
   /* TODO: Add more token types */
 
 };
@@ -44,13 +50,28 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"==", TK_EQ},        // equal
+  
   {"[0-9]+", TK_DECIMAL},   // 十进制整数
+  
   {"\\+", '+'},             // plus
   {"-", '-'},               // 减法
   {"\\*", '*'},             // 乘法
   {"/", '/'},               // 除法
+  
   {"\\(", '('},             // 左括号
   {"\\)", ')'},             // 右括号
+  
+  {"\\<\\=",TK_LEQ},        // 小于等于
+  {"\\!\\=", TK_NOTEQ},      // 不等于
+  
+  {"\\|\\|", OR},           // 与
+  {"\\&\\&", AND},          // 或
+  {"\\!", '!'},             // 非
+  
+  {"\\$[a-zA-Z]*[0-9]*", RESGISTER},   //寄存器
+  {"0[xX][0-9a-fA-F]+", HEX},          //16进制
+  
+  
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -107,11 +128,6 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-	  case TK_DECIMAL:
-            tokens[nr_token].type = TK_DECIMAL;
-            strncpy(tokens[nr_token].str, substr_start, substr_len);
-            nr_token++;
-            break;
 	  case '+':
 	    // 处理加法
 	    tokens[nr_token].type = '+';
@@ -145,6 +161,52 @@ static bool make_token(char *e) {
 	  case TK_NOTYPE:
 	    // 忽略空格串
 	    break;
+	  case '!':
+	    tokens[nr_token].type = '!';
+	    nr_token++;
+	    break;
+	    
+	  case TK_DECIMAL:
+            tokens[nr_token].type = TK_DECIMAL;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break; 
+	  case RESGISTER:
+            tokens[nr_token].type = RESGISTER;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break;   
+	  case HEX:
+            tokens[nr_token].type = HEX;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break; 
+            
+	  case TK_EQ:
+	    tokens[nr_token].type = 1;
+	    stpcpy(tokens[nr_token].str, "==");
+	    nr_token++;
+	    break;
+	  case TK_LEQ:
+	    tokens[nr_token].type = 2;
+	    stpcpy(tokens[nr_token].str, "<=");
+	    nr_token++;
+	    break;
+	  case TK_NOTEQ:
+	    tokens[nr_token].type = 3;
+	    stpcpy(tokens[nr_token].str, "!=");
+	    nr_token++;
+	    break;
+	  case OR:
+	    tokens[nr_token].type = 4;
+	    stpcpy(tokens[nr_token].str, "||");
+	    nr_token++;
+	    break;
+	  case AND:
+	    tokens[nr_token].type = 5;
+	    stpcpy(tokens[nr_token].str, "&&");
+	    nr_token++;
+	    break;    
           default: printf("wo hai mei xie");
         }
 
