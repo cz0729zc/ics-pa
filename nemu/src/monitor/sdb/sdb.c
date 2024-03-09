@@ -62,6 +62,8 @@ static int cmd_info(char *args);
 
 static int cmd_x(char *args);
 
+static int cmd_p(char* args);
+
 static struct {
   const char *name;
   const char *description;
@@ -70,9 +72,10 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "Single step execution of the program (default 1)", cmd_si },
-  { "info r w", "Print register values", cmd_info },
-  { "x", "Scan memory, output N 4-byte data starting from the address specified by EXPR in hexadecimal form", cmd_x },
+  { "si", "运行 n行", cmd_si },
+  { "info r w", "打印寄存器值", cmd_info },
+  { "x", "扫描内存 一次4行 x 10 0x80000000", cmd_x },
+  { "p", "正则表达式求值" , cmd_p },
 
   /* TODO: Add more commands */
 
@@ -142,6 +145,17 @@ static int cmd_x(char *args){
     return 0;
 }
 
+static int cmd_p(char* args){
+    if(args == NULL){
+        printf("No args\n");
+        return 0;
+    }
+    //  printf("args = %s\n", args);
+    bool flag = false;
+    expr(args, &flag);
+    return 0;
+}
+
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
@@ -177,7 +191,11 @@ void sdb_mainloop() {
       cmd_info(args);
       continue;
     }
-
+    
+    if (strcmp(cmd, "p") == 0) {
+      cmd_p(args);
+      continue;
+    }
 #ifdef CONFIG_DEVICE
     extern void sdl_clear_event_queue();
     sdl_clear_event_queue();
