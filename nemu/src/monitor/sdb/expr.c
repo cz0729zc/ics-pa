@@ -313,6 +313,38 @@ static bool make_token(char *e) {
 	    }
 	}
     }
+    //对*指针进行预处理
+    for(int i = 0 ; i < tokens_len ; i ++)
+    {
+	if(	(tokens[i].type == '*' && i > 0 
+		    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
+		    && tokens[i+1].type == TK_DECIMAL 
+		    )
+                ||
+		(tokens[i].type == '*' && i > 0
+                    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
+                    && tokens[i+1].type == HEX
+                    )
+		||
+                (tokens[i].type == '*' && i == 0)
+          )
+		{
+            tokens[i].type = TK_NOTYPE;
+            int tmp = char_int(tokens[i+1].str);
+            uintptr_t a = (uintptr_t)tmp;
+            int value = *((int*)a);
+            int_char(value, tokens[i+1].str);	    
+            // 
+            for(int j = 0 ; j < tokens_len ; j ++){
+                if(tokens[j].type == TK_NOTYPE){
+                    for(int k = j +1 ; k < tokens_len ; k ++){
+                    tokens[k - 1] = tokens[k];
+                }
+                    tokens_len -- ;
+                }
+            }
+		}
+    }
   return true;
 }
 
@@ -406,14 +438,14 @@ uint32_t eval(int p, int q) {
             }
             
         }
-        //      printf("op position is %d\n", op);
+              printf("op position is %d\n", op);
         // if register return $register
         int  op_type = tokens[op].type;
 
         // 递归处理剩余的部分
         uint32_t  val1 = eval(p, op - 1);
         uint32_t  val2 = eval(op + 1, q);
-        //      printf("val1 = %d, val2 = %d \n", val1, val2);
+             printf("val1 = %d, val2 = %d \n", val1, val2);
 
         switch (op_type) {
             case '+':
