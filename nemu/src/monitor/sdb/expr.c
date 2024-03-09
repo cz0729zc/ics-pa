@@ -283,10 +283,26 @@ uint32_t eval(int p, int q) {
                 while(tokens[i].type != ')')
                     i ++;
             }
-            if(!flag && tokens[i].type == TK_EQ){
+            if(!flag && tokens[i].type == 4){
                 flag = true;
                 op = max(op,i);
             }
+            if(!flag && tokens[i].type == 5){
+                flag = true;
+                op = max(op,i);
+            }
+            if(!flag && tokens[i].type == 3){
+                flag = true;
+                op = max(op,i);
+            }  
+            if(!flag && tokens[i].type == 1){
+                flag = true;
+                op = max(op,i);
+            }  
+            if(!flag && tokens[i].type == 2){
+                flag = true;
+                op = max(op,i);
+            }  
             if(!flag && (tokens[i].type == '+' || tokens[i].type == '-')){
                 flag = true;
                 op = max(op, i);
@@ -294,6 +310,7 @@ uint32_t eval(int p, int q) {
             if(!flag && (tokens[i].type == '*' || tokens[i].type == '/') ){
                 op = max(op, i);
             }
+            
         }
         //      printf("op position is %d\n", op);
         // if register return $register
@@ -317,6 +334,14 @@ uint32_t eval(int p, int q) {
                     return 0;
                 }
                 return val1 / val2;
+            case 1:
+                return val1 == val2;
+            case 3:
+                return val1 != val2;
+            case 4:
+                return val1 || val2;
+            case 5:
+                return val1 && val2;
             default:
                 printf("No Op type.");
                 assert(0);
