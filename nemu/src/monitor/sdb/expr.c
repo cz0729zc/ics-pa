@@ -103,6 +103,39 @@ typedef struct token {
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
+int char_int(char s[]){
+    int s_size = strlen(s);
+    int res = 0 ;
+    for(int i = 0 ; i < s_size ; i ++)
+    {
+	res += s[i] - '0';
+	res *= 10;
+    }
+    res /= 10;
+    return res;
+}
+void int_char(int x, char str[]){
+    int len = strlen(str);
+    memset(str, 0, len);
+    int tmp_index = 0;
+    int tmp_x = x;
+    int x_size = 0, flag = 1;
+    while(tmp_x){
+	tmp_x /= 10;
+	x_size ++;
+	flag *= 10;
+    }
+    flag /= 10;
+    while(x)
+    {
+	int a = x / flag; 
+	x %= flag;
+	flag /= 10;
+	str[tmp_index ++] = a + '0';
+    }
+}
+
+
 static bool make_token(char *e) {
   int position = 0;
   int i;
@@ -218,10 +251,102 @@ static bool make_token(char *e) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
-  }
-
+    //获取tokens长度
+    int tokens_len = 0;
+    for(int i = 0 ; i < 30 ; i ++)
+    {
+	if(tokens[i].type == 0)
+	    break;
+	tokens_len ++;
+    }
+    
+    //初始化tokens寄存器 
+    for(int i = 0 ; i < tokens_len ; i ++)
+    {
+	if(tokens[i].type == 259)
+	{
+	    bool flag = true;
+	    int tmp = isa_reg_str2val(tokens[i].str, &flag);
+	    if(flag){
+		int_char(tmp, tokens[i].str); // transfrom the str --> $egx
+	    }else{
+		printf("Transfrom error. \n");
+		assert(0);
+	    }
+	}
+    }
+    //初始化tokens 16进制
+    for(int i = 0 ; i < tokens_len ; i ++)
+    {
+        if(tokens[i].type == 258)// Hex num
+        {
+            int value = strtol(tokens[i].str, NULL, 16);
+            int_char(value, tokens[i].str);
+        }
+    }
+    //对-1进行处理
+    for(int i = 0 ; i < tokens_len ; i ++)
+    {
+	if((tokens[i].type == '-' && i > 0 && tokens[i-1].type != TK_DECIMAL && tokens[i+1].type == TK_DECIMAL)
+		||
+		(tokens[i].type == '-' && i == 0)
+	  )
+	{
+	    //printf("%s\n", tokens[i+1].str);
+	    tokens[i].type = TK_NOTYPE;
+	    //tokens[i].str = tmp;
+	    for(int j = 31 ; j >= 0 ; j --){
+		tokens[i+1].str[j] = tokens[i+1].str[j-1];//向后移一位
+	    }
+	    tokens[i+1].str[0] = '-';
+	    // printf("%s\n", tokens[i+1].str);
+	    for(int j = 0 ; j < tokens_len ; j ++){
+		if(tokens[j].type == TK_NOTYPE)
+		{
+		    for(int k = j +1 ; k < tokens_len ; k ++){
+			tokens[k - 1] = tokens[k];
+		    }
+		    tokens_len -- ;
+		}
+	    }
+	}
+    }
+    //对*指针进行预处理
+    for(int i = 0 ; i < tokens_len ; i ++)
+    {
+	if(	(tokens[i].type == '*' && i > 0 
+		    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
+		    && tokens[i+1].type == TK_DECIMAL 
+		    )
+                ||
+		(tokens[i].type == '*' && i > 0
+                    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
+                    && tokens[i+1].type == HEX
+                    )
+		||
+                (tokens[i].type == '*' && i == 0)
+          )
+		{
+            tokens[i].type = TK_NOTYPE;
+            int tmp = char_int(tokens[i+1].str);
+            uintptr_t a = (uintptr_t)tmp;
+            int value = *((int*)a);
+            int_char(value, tokens[i+1].str);	    
+            // 
+            for(int j = 0 ; j < tokens_len ; j ++){
+                if(tokens[j].type == TK_NOTYPE){
+                    for(int k = j +1 ; k < tokens_len ; k ++){
+                    tokens[k - 1] = tokens[k];
+                }
+                    tokens_len -- ;
+                }
+            }
+		}
+    }
+    }
   return true;
 }
+
 
 bool check_parentheses(int p, int q)
 {
