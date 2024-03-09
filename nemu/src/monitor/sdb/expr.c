@@ -114,6 +114,7 @@ int char_int(char s[]){
     res /= 10;
     return res;
 }
+
 void int_char(int x, char str[]){
     int len = strlen(str);
     memset(str, 0, len);
