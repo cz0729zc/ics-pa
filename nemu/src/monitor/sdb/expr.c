@@ -246,12 +246,13 @@ static bool make_token(char *e) {
 
         break;
       }
-    }
+}
 
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
+}
     //获取tokens长度
     int tokens_len = 0;
     for(int i = 0 ; i < 30 ; i ++)
@@ -343,7 +344,6 @@ static bool make_token(char *e) {
                 }
             }
 		}
-    }
     }
   return true;
 }
