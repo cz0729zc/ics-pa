@@ -27,9 +27,9 @@ bool division_zero = false;
 
 enum {
   TK_NOTYPE = 256, 
-  TK_DECIMAL,  // 十进制整数
-  RESGISTER,
-  HEX,
+  TK_DECIMAL = 257,  // 十进制整数
+  RESGISTER = 258,
+  HEX = 259,
   TK_EQ = 1 ,
   TK_LEQ = 2,     //261
   TK_NOTEQ = 3,
