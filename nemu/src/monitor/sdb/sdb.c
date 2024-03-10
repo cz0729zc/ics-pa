@@ -64,6 +64,16 @@ static int cmd_x(char *args);
 
 static int cmd_p(char* args);
 
+static int cmd_w(char* args);
+
+static int cmd_d(char* args);
+
+void sdb_watchpoint_display();
+
+void delete_watchpoint(int no);
+
+void create_watchpoint(char* args);
+
 static struct {
   const char *name;
   const char *description;
@@ -73,10 +83,11 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "运行 n行", cmd_si },
-  { "info r w", "打印寄存器值", cmd_info },
+  { "info", "r打印寄存器值w打印监视点信息", cmd_info },
   { "x", "扫描内存 一次4行 x 10 0x80000000", cmd_x },
   { "p", "正则表达式求值" , cmd_p },
-
+  { "w", "设置监视点" , cmd_w },
+  { "d", "删除监视点" , cmd_d },
   /* TODO: Add more commands */
 
 };
@@ -125,8 +136,7 @@ static int cmd_info(char *args) {
     else if(strcmp(args, "r") == 0)
         isa_reg_display();
     else if(strcmp(args, "w") == 0)
-        //sdb_watchpoint_display();
-        printf("hai mei xie");
+        sdb_watchpoint_display();
     return 0;
 }
 
@@ -156,6 +166,19 @@ static int cmd_p(char* args){
     return 0;
 }
 
+static int cmd_d (char *args){
+    if(args == NULL)
+        printf("No args.\n");
+    else{
+        delete_watchpoint(atoi(args));
+    }
+    return 0;
+}
+
+static int cmd_w(char* args){
+    create_watchpoint(args);
+    return 0;
+}
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
@@ -194,6 +217,16 @@ void sdb_mainloop() {
     
     if (strcmp(cmd, "p") == 0) {
       cmd_p(args);
+      continue;
+    }
+    
+    if (strcmp(cmd, "w") == 0) {
+      cmd_w(args);
+      continue;
+    }
+    
+    if (strcmp(cmd, "d") == 0) {
+      cmd_d(args);
       continue;
     }
 #ifdef CONFIG_DEVICE
