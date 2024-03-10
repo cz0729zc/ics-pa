@@ -200,21 +200,21 @@ static bool make_token(char *e) {
 	    nr_token++;
 	    break;
 	    
-	  case HEX:
-            tokens[nr_token].type = HEX;
-            strncpy(tokens[nr_token].str, substr_start, substr_len);
-            nr_token++;
-            break; 
-	  case TK_DECIMAL:
-            tokens[nr_token].type = TK_DECIMAL;
-            strncpy(tokens[nr_token].str, substr_start, substr_len);
-            nr_token++;
-            break; 
-	  case RESGISTER:
-            tokens[nr_token].type = RESGISTER;
+	  case 257:
+            tokens[nr_token].type = 257;
+            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+            nr_token ++;
+            break;
+	  case 258:
+            tokens[nr_token].type = 258;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             nr_token++;
             break;   
+	  case 259:
+            tokens[nr_token].type = 259;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            nr_token++;
+            break; 
             
 	  case TK_EQ:
 	    tokens[nr_token].type = 1;
