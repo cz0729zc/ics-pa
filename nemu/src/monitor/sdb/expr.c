@@ -265,7 +265,7 @@ static bool make_token(char *e) {
     //初始化tokens寄存器 
     for(int i = 0 ; i < tokens_len ; i ++)
     {
-	if(tokens[i].type == 259)
+	if(tokens[i].type == 258)
 	{
 	    bool flag = true;
 	    int tmp = isa_reg_str2val(tokens[i].str, &flag);
@@ -280,7 +280,7 @@ static bool make_token(char *e) {
     //初始化tokens 16进制
     for(int i = 0 ; i < tokens_len ; i ++)
     {
-        if(tokens[i].type == 258)// Hex num
+        if(tokens[i].type == 259)// Hex num
         {
             int value = strtol(tokens[i].str, NULL, 16);
             int_char(value, tokens[i].str);
