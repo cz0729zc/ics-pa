@@ -39,6 +39,7 @@ word_t isa_reg_str2val(const char *s, bool *success) {
     	else
     	{
     	   s++;
+    	   break;
     	}
     }    
     for (i = 0; i < sizeof(regs) / sizeof(regs[0]); i++) {
