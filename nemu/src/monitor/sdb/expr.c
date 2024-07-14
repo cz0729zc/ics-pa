@@ -200,11 +200,6 @@ static bool make_token(char *e) {
 	    nr_token++;
 	    break;
 	    
-	  case 259:
-            tokens[nr_token].type = 259;
-            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
-            nr_token ++;
-            break; 
 	  case 257:
             tokens[nr_token].type = 257;
             strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
@@ -212,6 +207,11 @@ static bool make_token(char *e) {
             break;
 	  case 258:
             tokens[nr_token].type = 258;
+            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+            nr_token ++;
+            break; 
+	  case 259:
+            tokens[nr_token].type = 259;
             strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
             nr_token ++;
             break; 
