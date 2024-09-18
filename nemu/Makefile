@@ -39,15 +39,25 @@ SRCS-BLACKLIST-y += $(SRCS-BLACKLIST) $(shell find $(DIRS-BLACKLIST-y) -name "*.
 SRCS-y += $(shell find $(DIRS-y) -name "*.c")
 SRCS = $(filter-out $(SRCS-BLACKLIST-y),$(SRCS-y))
 
-# Extract compiler and options from menuconfig
-CC = $(call remove_quote,$(CONFIG_CC))
-CFLAGS_BUILD += $(call remove_quote,$(CONFIG_CC_OPT))
-CFLAGS_BUILD += $(if $(CONFIG_CC_LTO),-flto,)
-CFLAGS_BUILD += $(if $(CONFIG_CC_DEBUG),-Og -ggdb3,)
-CFLAGS_BUILD += $(if $(CONFIG_CC_ASAN),-fsanitize=address,)
-CFLAGS_TRACE += -DITRACE_COND=$(if $(CONFIG_ITRACE_COND),$(call remove_quote,$(CONFIG_ITRACE_COND)),true)
-CFLAGS  += $(CFLAGS_BUILD) $(CFLAGS_TRACE) -D__GUEST_ISA__=$(GUEST_ISA)
-LDFLAGS += $(CFLAGS_BUILD)
+# Extract compiler and options from menuconfig  
+CC = $(call remove_quote,$(CONFIG_CC))  
+CFLAGS_BUILD += $(call remove_quote,$(CONFIG_CC_OPT))  
+CFLAGS_BUILD += $(if $(CONFIG_CC_LTO),-flto,)  
+CFLAGS_BUILD += $(if $(CONFIG_CC_DEBUG),-Og -ggdb3,)  
+CFLAGS_BUILD += $(if $(CONFIG_CC_ASAN),-fsanitize=address,)  
+CFLAGS_TRACE += -DITRACE_COND=$(if $(CONFIG_ITRACE_COND),$(call remove_quote,$(CONFIG_ITRACE_COND)),true)  
+
+# Add preprocessor option  
+CFLAGS_PREPROCESS = -E  
+CFLAGS  += $(CFLAGS_BUILD) $(CFLAGS_TRACE) -D__GUEST_ISA__=$(GUEST_ISA)  
+LDFLAGS += $(CFLAGS_BUILD)  
+
+# Change the rule for compiling to include preprocessor output  
+# 假设你的目标是 *.c 文件  
+%.o: %.c  
+	$(CC) $(CFLAGS_BUILD) $(CFLAGS_TRACE) $(CFLAGS_PREPROCESS) $< -o $@ > preprocessing_output.txt
+
+
 
 # Include rules for menuconfig
 include $(NEMU_HOME)/scripts/config.mk
