@@ -27,7 +27,8 @@ const char *regs[] = {
 void isa_reg_display() {
     int i;
     for (i = 0; i < sizeof(regs) / sizeof(regs[0]); i++) {
-        printf("%s: %d\n", regs[i], cpu.gpr[i]);
+        printf("%s: %ld\n", regs[i], (long)cpu.gpr[i]); // 使用 %ld 是为了确保支持长整型
+        //printf("%s: %d\n", regs[i], cpu.gpr[i]);
     }
 }
 
