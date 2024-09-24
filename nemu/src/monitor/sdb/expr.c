@@ -35,6 +35,7 @@ enum {
   TK_NOTEQ = 3,
   OR = 4,
   AND = 5,
+
   /* TODO: Add more token types */
 
 };
@@ -205,15 +206,21 @@ static bool make_token(char *e) {
             strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
             nr_token ++;
             break;
-	  case 258:
-            tokens[nr_token].type = 258;
-            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
-            nr_token ++;
+	  case RESGISTER:
+	    bool flag = true;
+	    int tmp = isa_reg_str2val(tokens[nr_token].str, &flag);
+	    if (flag) {
+		int_char(tmp, tokens[nr_token].str); // 将值转为字符串
+		nr_token++;
+	    } else {
+		printf("Transform error.\n");
+		assert(0);
+	    }
             break; 
-	  case 259:
-            tokens[nr_token].type = 259;
-            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
-            nr_token ++;
+	  case HEX:
+	    int value = strtol(tokens[nr_token].str, NULL, 16);
+	    int_char(value, tokens[nr_token].str);
+	    nr_token++;
             break; 
             
 	  case TK_EQ:
@@ -240,7 +247,7 @@ static bool make_token(char *e) {
 	    tokens[nr_token].type = 5;
 	    stpcpy(tokens[nr_token].str, "&&");
 	    nr_token++;
-	    break;    
+	    break; 
           default: printf("wo hai mei xie");
         }
 
@@ -437,6 +444,7 @@ uint32_t eval(int p, int q) {
             if(!flag && (tokens[i].type == '*' || tokens[i].type == '/') ){
                 op = max(op, i);
             }
+            
             
         }
               printf("op position is %d\n", op);
