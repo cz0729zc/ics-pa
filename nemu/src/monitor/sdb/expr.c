@@ -141,9 +141,9 @@ void long_long_char(long long x, char str[]) {
     int len = strlen(str);  
     memset(str, 0, len);  
     int tmp_index = 0;  
-    long long tmp_x = x;  // 修改为 long long 类型  
+    unsigned long long tmp_x = x;  // 修改为 long long 类型  
     int x_size = 0;  
-    long long flag = 1;   // 修改为 long long 类型  
+    unsigned long long flag = 1;   // 修改为 long long 类型  
 
     // 计算 x 的位数  
     while (tmp_x) {  
@@ -155,7 +155,7 @@ void long_long_char(long long x, char str[]) {
 
     // 将 long long 型 x 转换为字符串  
     while (x) {  
-        long long a = x / flag; // 修改为 long long 类型  
+        unsigned long long a = x / flag; // 修改为 long long 类型  
         x %= flag;  
         flag /= 10;  
         str[tmp_index++] = a + '0';  
