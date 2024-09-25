@@ -389,6 +389,7 @@ uint32_t eval(int p, int q) {
          */
         if(tokens[p].type == HEX)
         {
+        	printf("Value : %s\n",tokens[p].str);
 	    int value = strtol(tokens[p].str, NULL, 16);
             printf("Value : %d\n",value);
             return value;
