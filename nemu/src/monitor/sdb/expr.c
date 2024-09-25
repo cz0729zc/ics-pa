@@ -390,7 +390,7 @@ uint32_t eval(int p, int q) {
         if(tokens[p].type == HEX)
         {
 	    int value = strtol(tokens[p].str, NULL, 16);
-            //printf("Value : %d\n",value);
+            printf("Value : %d\n",value);
             return value;
         }
         return atoi(tokens[p].str);
