@@ -116,11 +116,12 @@ int char_int(char s[]){
 }
 
 void int_char(int x, char str[]){
-    long len = strlen(str);
+    int len = strlen(str);
     memset(str, 0, len);
-    long tmp_index = 0;
+    int tmp_index = 0;
     long tmp_x = x;
-    long x_size = 0, flag = 1;
+    int x_size = 0;
+    long flag = 1;
     while(tmp_x){
 	tmp_x /= 10;
 	x_size ++;
