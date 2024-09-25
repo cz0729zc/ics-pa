@@ -212,7 +212,9 @@ static bool make_token(char *e) {
             break;
 	  case HEX:
             tokens[nr_token].type = HEX;
+            printf("Value : %s\n",tokens[i].str);
             strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+            printf("Value : %s\n",tokens[i].str);
             nr_token ++;
             break;
             
