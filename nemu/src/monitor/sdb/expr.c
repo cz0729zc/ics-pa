@@ -386,6 +386,13 @@ uint32_t eval(int p, int q) {
          * For now this token should be a number.
          * Return the value of the number.
          */
+        if(tokens[p].type == HEX)
+        {
+	    long hex_value = strtol(tokens[p].str, NULL, 16);
+	    // 打印十六进制数的值
+	    printf("十六进制数的值是: %ld\n", hex_value);
+	    return (int)hex_value; // 返回转换后的整数值
+        }
         return atoi(tokens[p].str);
     }
     else if (check_parentheses(p, q) == true) {
