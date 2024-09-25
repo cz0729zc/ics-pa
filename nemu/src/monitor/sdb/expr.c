@@ -309,12 +309,11 @@ static bool make_token(char *e) {
         if(tokens[i].type == 259)// Hex num
         {
             printf("Value : %s\n",tokens[i].str);
-            long value = strtol(tokens[i].str, NULL, 16);
+            long long value = strtol(tokens[i].str, NULL, 16);
 
-    	    printf("Value : %ld\n",value);
+    	    printf("Value : %lld\n",value);
     	    long_long_char(value, tokens[i].str);
     	    printf("Value : %s\n",tokens[i].str);           
-
         }
     }
     //对-1进行处理
