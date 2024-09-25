@@ -213,7 +213,6 @@ static bool make_token(char *e) {
 	  case HEX:
             tokens[nr_token].type = HEX;
             strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
-            printf("Value : %s\n",tokens[nr_token].str);
             nr_token ++;
             break;
             
@@ -283,7 +282,6 @@ static bool make_token(char *e) {
     {
         if(tokens[i].type == 259)// Hex num
         {
-        	printf("Value : %s\n",tokens[i].str);
             int value = strtol(tokens[i].str, NULL, 16);
             printf("Value : %d\n",value);
             int_char(value, tokens[i].str);
