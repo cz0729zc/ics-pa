@@ -282,6 +282,7 @@ static bool make_token(char *e) {
     {
         if(tokens[i].type == 259)// Hex num
         {
+        	printf("Value : %s\n",tokens[i].str);
             int value = strtol(tokens[i].str, NULL, 16);
             printf("Value : %d\n",value);
             int_char(value, tokens[i].str);
