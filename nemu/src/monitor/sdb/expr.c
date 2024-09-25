@@ -389,6 +389,7 @@ uint32_t eval(int p, int q) {
          */
         if(tokens[p].type == HEX)
         {
+            printf("十六进制数的值是: %s\n", tokens[p].str);
 	    long hex_value = strtol(tokens[p].str, NULL, 16);
 	    // 打印十六进制数的值
 	    printf("十六进制数的值是: %ld\n", hex_value);
