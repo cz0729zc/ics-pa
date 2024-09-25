@@ -51,7 +51,8 @@ static struct rule {
 
   {" +", TK_NOTYPE},    // spaces
   {"==", TK_EQ},        // equal
-  
+
+  {"0[xX][0-9a-fA-F]+", HEX},          //16进制
   {"[0-9]+", TK_DECIMAL},   // 十进制整数
   
   {"\\+", '+'},             // plus
@@ -70,8 +71,6 @@ static struct rule {
   {"\\!", '!'},             // 非
   
   {"\\$[a-zA-Z]*[0-9]*", RESGISTER},   //寄存器
-  {"0[xX][0-9a-fA-F]+", HEX},          //16进制
-  
   
 };
 
