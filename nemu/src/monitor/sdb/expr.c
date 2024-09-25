@@ -206,21 +206,15 @@ static bool make_token(char *e) {
             nr_token ++;
             break;
 	  case RESGISTER:
-	    bool flag = true;
-	    int tmp = isa_reg_str2val(tokens[nr_token].str, &flag);
-	    if (flag) {
-		int_char(tmp, tokens[nr_token].str); // 将值转为字符串
-		nr_token++;
-	    } else {
-		printf("Transform error.\n");
-		assert(0);
-	    }
-            break; 
+            tokens[nr_token].type = RESGISTER;
+            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+            nr_token ++;
+            break;
 	  case HEX:
-	    int value = strtol(tokens[nr_token].str, NULL, 16);
-	    int_char(value, tokens[nr_token].str);
-	    nr_token++;
-            break; 
+            tokens[nr_token].type = HEX;
+            strncpy(tokens[nr_token].str, &e[position - substr_len], substr_len);
+            nr_token ++;
+            break;
             
 	  case TK_EQ:
 	    tokens[nr_token].type = 1;
