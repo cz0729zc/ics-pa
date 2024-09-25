@@ -283,9 +283,9 @@ static bool make_token(char *e) {
         if(tokens[i].type == 259)// Hex num
         {
             int value = strtol(tokens[i].str, NULL, 16);
-            printf("Value : %d\n",value);
+            //printf("Value : %d\n",value);
             int_char(value, tokens[i].str);
-            printf("Value : %s\n",tokens[i].str);
+            //printf("Value : %s\n",tokens[i].str);
         }
     }
     //对-1进行处理
@@ -389,11 +389,9 @@ uint32_t eval(int p, int q) {
          */
         if(tokens[p].type == HEX)
         {
-            printf("十六进制数的值是: %s\n", tokens[p].str);
-	    int hex_value = strtol(tokens[p].str, NULL, 16);
-	    // 打印十六进制数的值
-	    printf("十六进制数的值是: %d\n", hex_value);
-	    return (int)hex_value; // 返回转换后的整数值
+	    int value = strtol(tokens[p].str, NULL, 16);
+            //printf("Value : %d\n",value);
+            return value;
         }
         return atoi(tokens[p].str);
     }
