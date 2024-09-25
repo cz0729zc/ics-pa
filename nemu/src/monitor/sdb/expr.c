@@ -137,6 +137,31 @@ void int_char(int x, char str[]){
     }
 }
 
+void long_long_char(long long x, char str[]) {  
+    int len = strlen(str);  
+    memset(str, 0, len);  
+    int tmp_index = 0;  
+    long long tmp_x = x;  // 修改为 long long 类型  
+    int x_size = 0;  
+    long long flag = 1;   // 修改为 long long 类型  
+
+    // 计算 x 的位数  
+    while (tmp_x) {  
+        tmp_x /= 10;  
+        x_size++;  
+        flag *= 10; // flag 也要是 long long 类型  
+    }  
+    flag /= 10;  
+
+    // 将 long long 型 x 转换为字符串  
+    while (x) {  
+        long long a = x / flag; // 修改为 long long 类型  
+        x %= flag;  
+        flag /= 10;  
+        str[tmp_index++] = a + '0';  
+    }  
+}  
+
 
 static bool make_token(char *e) {
   int position = 0;
@@ -287,7 +312,7 @@ static bool make_token(char *e) {
             long value = strtol(tokens[i].str, NULL, 16);
 
     	    printf("Value : %ld\n",value);
-    	    int_char(value, tokens[i].str);
+    	    long_long_char(value, tokens[i].str);
     	    printf("Value : %s\n",tokens[i].str);           
 
         }
