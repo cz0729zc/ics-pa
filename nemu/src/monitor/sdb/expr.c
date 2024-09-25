@@ -387,13 +387,6 @@ uint32_t eval(int p, int q) {
          * For now this token should be a number.
          * Return the value of the number.
          */
-        if(tokens[p].type == HEX)
-        {
-        	printf("Value : %s\n",tokens[p].str);
-	    int value = strtol(tokens[p].str, NULL, 16);
-            printf("Value : %d\n",value);
-            return value;
-        }
         return atoi(tokens[p].str);
     }
     else if (check_parentheses(p, q) == true) {
