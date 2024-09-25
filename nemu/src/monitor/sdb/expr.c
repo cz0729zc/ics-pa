@@ -116,30 +116,24 @@ int char_int(char s[]){
 }
 
 void int_char(int x, char str[]){
+    int len = strlen(str);
+    memset(str, 0, len);
     int tmp_index = 0;
-    int flag = 1;
-
-    // 清空字符串
-    str[0] = '\0';  // 直接清空字符串
-
-    // 计算 x 的位数
-    if (x == 0) {
-        strcpy(str, "0"); // 特殊处理零
-        return;
-    }
-
-    while (x) {
-        x /= 10;
-        flag *= 10;
+    int tmp_x = x;
+    int x_size = 0, flag = 1;
+    while(tmp_x){
+	tmp_x /= 10;
+	x_size ++;
+	flag *= 10;
     }
     flag /= 10;
-
-    while (flag) {
-        str[tmp_index++] = (x / flag) + '0';
-        x %= flag;
-        flag /= 10;
+    while(x)
+    {
+	int a = x / flag; 
+	x %= flag;
+	flag /= 10;
+	str[tmp_index ++] = a + '0';
     }
-    str[tmp_index] = '\0'; // 确保字符串以 null 结尾
 }
 
 
