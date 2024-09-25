@@ -283,8 +283,8 @@ static bool make_token(char *e) {
         if(tokens[i].type == 259)// Hex num
         {
             int value = strtol(tokens[i].str, NULL, 16);
+            printf("Value : %d",value);
             int_char(value, tokens[i].str);
-            printf("Transfrom error. \n");
         }
     }
     //对-1进行处理
