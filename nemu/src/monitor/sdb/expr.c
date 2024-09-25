@@ -308,12 +308,12 @@ static bool make_token(char *e) {
     {
         if(tokens[i].type == 259)// Hex num
         {
-            printf("Value : %s\n",tokens[i].str);
+            //printf("Value : %s\n",tokens[i].str);
             long long value = strtol(tokens[i].str, NULL, 16);
 
-    	    printf("Value : %lld\n",value);
+    	    //printf("Value : %lld\n",value);
     	    long_long_char(value, tokens[i].str);
-    	    printf("Value : %s\n",tokens[i].str);           
+    	    //printf("Value : %s\n",tokens[i].str);           
         }
     }
     //对-1进行处理
@@ -475,7 +475,7 @@ uint32_t eval(int p, int q) {
         // 递归处理剩余的部分
         uint32_t  val1 = eval(p, op - 1);
         uint32_t  val2 = eval(op + 1, q);
-             printf("val1 = %d, val2 = %d \n", val1, val2);
+             //printf("val1 = %d, val2 = %d \n", val1, val2);
 
         switch (op_type) {
             case '+':
