@@ -200,7 +200,9 @@ static int cmd_p(char* args){
     }
     //  printf("args = %s\n", args);
     bool flag = false;
-    printf("%d\n",expr(args, &flag));
+    
+    uint32_t result = expr(args, &flag);
+    printf("Decimal: %u, Hex: 0x%x\n", result, result);   	
     return 0;
 }
 
