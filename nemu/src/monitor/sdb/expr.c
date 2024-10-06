@@ -415,17 +415,17 @@ uint32_t eval(int p, int q) {
          * For now this token should be a number.
          * Return the value of the number.
          */
-        return atoi(tokens[p].str);
+        uint32_t result = atoi(tokens[p].str);
+        printf("Decimal: %u, Hex: 0x%x\n", result, result);
+        return result;
+        //return atoi(tokens[p].str);
     }
     else if (check_parentheses(p, q) == true) {
         /* The expression is surrounded by a matched pair of parentheses.
          * If that is the case, just throw away the parentheses.
          */
         // printf("check p = %d, q = %d\n",p + 1 , q - 1);
-        uint32_t result = atoi(tokens[p].str);
-        printf("Decimal: %u, Hex: 0x%x\n", result, result);
-        return result;
-        //return eval(p + 1, q - 1);
+        return eval(p + 1, q - 1);
     }
     /* else if(check_parentheses(p, q) == false){
        printf("Unique\n");
