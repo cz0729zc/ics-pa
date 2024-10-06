@@ -417,7 +417,7 @@ uint32_t eval(int p, int q) {
          */
         uint32_t result = atoi(tokens[p].str);
         printf("Decimal: %u, Hex: 0x%x\n", result, result);
-        return result;
+        return 0;
         //return atoi(tokens[p].str);
     }
     else if (check_parentheses(p, q) == true) {
