@@ -141,8 +141,9 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args){
-	printf("args = %s\n", args);
+	//printf("args = %s\n", args);
     char* n = strtok(args," ");
+    printf("n = %s\n", n);
     char* baseaddr = strtok(NULL," ");
     printf("args = %s\n", args);
     //printf("n:%d,addr:%x\n,args:%x",*n,*baseaddr,*args);
