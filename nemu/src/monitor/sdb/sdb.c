@@ -140,6 +140,22 @@ static int cmd_info(char *args) {
     return 0;
 }
 
+// 检查字符串是否为有效的十六进制数  
+int is_hex(const char* str) {  
+    if (str == NULL || strlen(str) < 3) {  
+        return 0; // 至少需要“0x”前缀  
+    }  
+    if (str[0] != '0' || str[1] != 'x') {  
+        return 0; // 不符合十六进制格式  
+    }  
+    for (size_t i = 2; i < strlen(str); i++) {  
+        if (!isxdigit(str[i])) {  
+            return 0; // 找到非十六进制字符  
+        }  
+    }  
+    return 1; // 是有效的十六进制数  
+}  
+
 static int cmd_x(char *args){
 	//printf("args = %s\n", args);
     char* n = strtok(args," ");  
@@ -148,10 +164,17 @@ static int cmd_x(char *args){
     char* baseaddr = strtok(NULL," ");
     //printf("baseaddr = %s\n", baseaddr);
     
+    //检查格式
     if (n == NULL || baseaddr == NULL) {  
         printf("格式: x <length> <address>\n");  
         return -1; // 参数不足  
     }  
+    
+    // 检查地址格式是否为有效的十六进制数  
+    if (!is_hex(baseaddr)) {  
+        printf("Invalid hexadecimal address: %s\n", baseaddr);  
+        return -1; // 地址无效  
+    } 
     
     int len = 0;
     paddr_t addr = 0;
@@ -163,9 +186,10 @@ static int cmd_x(char *args){
     
     for(int i = 0 ; i < len ; i ++)
     {
-        printf("0x%x\n",paddr_read(addr,4));//addr len
-        addr = addr + 4;
+        uint32_t data = paddr_read(addr + i * 4, 4); // 循环读取 4 字节数据  
+        printf("0x%08x: 0x%08x\n", addr + i * 4, data); // 使用 %08x 格式化为 8 位（填充零）  
     }
+    
     return 0;
 }
 
