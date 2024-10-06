@@ -148,13 +148,19 @@ static int cmd_x(char *args){
     char* baseaddr = strtok(NULL," ");
     //printf("baseaddr = %s\n", baseaddr);
     
+    if (n == NULL || baseaddr == NULL) {  
+        printf("格式: x <length> <address>\n");  
+        return -1; // 参数不足  
+    }  
+    
     int len = 0;
     paddr_t addr = 0;
     sscanf(n, "%d", &len);
-    printf("len = %d\n", len);
+    //printf("len = %d\n", len);
     
     sscanf(baseaddr,"%x", &addr);
-    printf("addr = 0x%x\n", addr);
+    //printf("addr = 0x%x\n", addr);
+    
     for(int i = 0 ; i < len ; i ++)
     {
         printf("0x%x\n",paddr_read(addr,4));//addr len
