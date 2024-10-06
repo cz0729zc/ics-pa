@@ -19,6 +19,9 @@
 #include <common.h>
 
 static inline int check_reg_idx(int idx) {
+  //调试
+  printf("Checking register index: %d\n", idx);
+  
   IFDEF(CONFIG_RT_CHECK, assert(idx >= 0 && idx < 32));
   return idx;
 }
