@@ -144,7 +144,14 @@ void unsigned_long_char(unsigned long x, char str[]) {
     unsigned long tmp_x = x;  
     int x_size = 0;  
     unsigned long flag = 1;  
-
+    
+    // 特殊情况：处理 x 为 0 的情况  
+    if (x == 0) {  
+        str[tmp_index++] = '0';  
+        str[tmp_index] = '\0'; // 确保字符串终止  
+        return;  
+    } 
+    
     // 计算 x 的位数  
     while (tmp_x) {  
         tmp_x /= 10;  
@@ -160,6 +167,7 @@ void unsigned_long_char(unsigned long x, char str[]) {
         flag /= 10;  
         str[tmp_index++] = a + '0';  
     }
+    str[tmp_index] = '\0';
     printf("str:%s\n", str);  
 }  
 
