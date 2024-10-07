@@ -141,21 +141,21 @@ void unsigned_long_char(unsigned long x, char str[]) {
     int len = strlen(str);  
     memset(str, 0, len);  
     int tmp_index = 0;  
-    unsigned long tmp_x = x;  // 修改为 long long 类型  
+    unsigned long tmp_x = x;  
     int x_size = 0;  
-    unsigned long flag = 1;   // 修改为 long long 类型  
+    unsigned long flag = 1;  
 
     // 计算 x 的位数  
     while (tmp_x) {  
         tmp_x /= 10;  
         x_size++;  
-        flag *= 10; // flag 也要是 long long 类型  
+        flag *= 10; 
     }  
     flag /= 10;  
 
-    // 将 long long 型 x 转换为字符串  
+    // 将 unsigned long 型 x 转换为字符串  
     while (x) {  
-        unsigned long a = x / flag; // 修改为 long long 类型  
+        unsigned long a = x / flag;
         x %= flag;  
         flag /= 10;  
         str[tmp_index++] = a + '0';  
@@ -294,9 +294,9 @@ static bool make_token(char *e) {
 	if(tokens[i].type == 258)
 	{
 	    bool flag = true;
-	    int tmp = isa_reg_str2val(tokens[i].str, &flag);
+	    unsigned long tmp = isa_reg_str2val(tokens[i].str, &flag);
 	    if(flag){
-		int_char(tmp, tokens[i].str); // transfrom the str --> $egx
+		unsigned_long_char(tmp, tokens[i].str); // transfrom the str --> $egx
 	    }else{
 		printf("Transfrom error. \n");
 		assert(0);
