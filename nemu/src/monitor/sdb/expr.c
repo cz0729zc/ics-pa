@@ -331,7 +331,7 @@ static bool make_token(char *e) {
     {
 		if (tokens[i].type == '-' && (i == 0 || (i > 0 && tokens[i-1].type != TK_DECIMAL)) && (i + 1 < tokens_len && tokens[i + 1].type == TK_DECIMAL))		
 		{
-			printf("处理负数\n");
+			//printf("处理负数\n");
             tokens[i].type = TK_NOTYPE;  
             // 将下一个数字前添加负号  
             for (int j = strlen(tokens[i + 1].str); j >= 0; j--) {  
@@ -350,15 +350,15 @@ static bool make_token(char *e) {
 					tokens[k - 1] = tokens[k];
 				  }
 				  tokens_len --;
-				  nr_token--;
+				  nr_token--;   //全局变量也要减
 				}
 			}
             
             //输出token长度和token
-			printf("Tokens length: %d\n", tokens_len);  
-			for (int i = 0; i < tokens_len; i++) {  
-				printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
-			}
+			//printf("Tokens length: %d\n", tokens_len);  
+			//for (int i = 0; i < tokens_len; i++) {  
+			//	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
+			//}
 		}
     }
     //对*指针进行预处理
@@ -424,7 +424,7 @@ bool check_parentheses(int p, int q)
  
 
 uint32_t eval(int p, int q) {
-	printf("Entering eval with p=%d, q=%d\n", p, q);
+	//printf("Entering eval with p=%d, q=%d\n", p, q);
     if (p > q) {
         /* Bad expression */
         assert(0);
