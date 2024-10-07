@@ -159,7 +159,8 @@ void unsigned_long_char(unsigned long x, char str[]) {
         x %= flag;  
         flag /= 10;  
         str[tmp_index++] = a + '0';  
-    }  
+    }
+    printf("str:%s\n", str);  
 }  
 
 
