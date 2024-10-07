@@ -68,6 +68,8 @@ static int cmd_w(char* args);
 
 static int cmd_d(char* args);
 
+static int cmd_test(char* args);
+
 void sdb_watchpoint_display();
 
 void delete_watchpoint(int no);
@@ -88,6 +90,7 @@ static struct {
   { "p", "正则表达式求值" , cmd_p },
   { "w", "设置监视点" , cmd_w },
   { "d", "删除监视点" , cmd_d },
+  { "test", "测试表达式" , cmd_test },
   /* TODO: Add more commands */
 
 };
@@ -190,6 +193,54 @@ static int cmd_x(char *args){
         printf("0x%08x: 0x%08x\n", addr + i * 4, data); // 使用 %08x 格式化为 8 位（填充零）  
     }
     
+    return 0;
+}
+
+//测试
+static int cmd_test(char *args){
+  int right_ans = 0;
+  FILE *input_file = fopen("/home/ics2022/nemu/tools/gen-expr/input", "r");
+    if (input_file == NULL) {
+        perror("Error opening input file");
+        return 1;
+    }
+ 
+    char record[1024];
+    unsigned real_val;
+    char buf[1024];
+ 
+    // 循环读取每一条记录
+    for (int i = 0; i < 100; i++) {
+        // 读取一行记录
+        if (fgets(record, sizeof(record), input_file) == NULL) {
+            perror("Error reading input file");
+            break;
+        }
+ 
+        // 分割记录，获取数字和表达式
+        char *token = strtok(record, " ");
+        if (token == NULL) {
+            printf("Invalid record format\n");
+            continue;
+        }
+        real_val = atoi(token); // 将数字部分转换为整数
+ 
+        // 处理表达式部分，可能跨越多行
+        strcpy(buf, ""); // 清空buf
+        while ((token = strtok(NULL, "\n")) != NULL) {
+            strcat(buf, token);
+            strcat(buf, " "); // 拼接换行后的部分，注意添加空格以分隔多行内容
+        }
+ 
+        // 输出结果
+        printf("Real Value: %u, Expression: %s\n", real_val, buf);
+        bool flag = false;
+        unsigned res = expr(buf,&flag);
+        if(res == real_val)right_ans ++;
+ 
+    }
+    printf("test 100 expressions,the accuracy is %d/100\n",right_ans);
+    fclose(input_file);
     return 0;
 }
 
