@@ -329,10 +329,11 @@ static bool make_token(char *e) {
     //对-1进行处理
     for(int i = 0 ; i < tokens_len ; i ++)
     {
-		if((tokens[i].type == '-' && i > 0 && tokens[i-1].type != TK_DECIMAL && tokens[i+1].type == TK_DECIMAL)
-			||
-			(tokens[i].type == '-' && i == 0)
-		  )
+		//if((tokens[i].type == '-' && i > 0 && tokens[i-1].type != TK_DECIMAL && tokens[i+1].type == TK_DECIMAL)
+		//	||
+		//	(tokens[i].type == '-' && i == 0)
+		//  )
+		if (tokens[i].type == '-' && (i == 0 || (i > 0 && tokens[i-1].type != TK_DECIMAL)) && (i + 1 < tokens_len && tokens[i + 1].type == TK_DECIMAL))		
 		{
 			printf("处理负数\n");
             tokens[i].type = TK_NOTYPE;  
@@ -343,10 +344,11 @@ static bool make_token(char *e) {
             tokens[i + 1].str[0] = '-'; // 添加负号  
             tokens[i + 1].type = TK_DECIMAL; // 设置为负数  
             tokens_len--; // 更新 tokens 的数量 
-    	//for(int i = 0 ; i < tokens_len ; i ++)
-    	//{
-    	//	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
-    	//}
+            
+			printf("Tokens length: %d\n", tokens_len);  
+			for (int i = 0; i < tokens_len; i++) {  
+				printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
+			}
 		}
     }
     //对*指针进行预处理
