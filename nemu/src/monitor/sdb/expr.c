@@ -343,7 +343,19 @@ static bool make_token(char *e) {
             }  
             tokens[i + 1].str[0] = '-'; // 添加负号  
             tokens[i + 1].type = TK_DECIMAL; // 设置为负数  
-            tokens_len--; // 更新 tokens 的数量 
+            
+            //tokens_len--; // 更新 tokens 的数量 
+            
+            // 更新 tokens 的数量 
+			for(int j = 0;j < tokens_len; j ++){ 
+				if(tokens[j].type == TK_NOTYPE)
+				{
+				  for(int k = j+1; k < tokens_len;k ++){
+					tokens[k - 1] = tokens[k];
+				  }
+				  tokens_len --;
+				}
+			}
             
 			printf("Tokens length: %d\n", tokens_len);  
 			for (int i = 0; i < tokens_len; i++) {  
