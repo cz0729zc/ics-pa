@@ -137,13 +137,13 @@ void int_char(int x, char str[]){
     }
 }
 
-void long_long_char(long long x, char str[]) {  
+void unsigned_long_char(unsigned long x, char str[]) {  
     int len = strlen(str);  
     memset(str, 0, len);  
     int tmp_index = 0;  
-    unsigned long long tmp_x = x;  // 修改为 long long 类型  
+    unsigned long tmp_x = x;  // 修改为 long long 类型  
     int x_size = 0;  
-    unsigned long long flag = 1;   // 修改为 long long 类型  
+    unsigned long flag = 1;   // 修改为 long long 类型  
 
     // 计算 x 的位数  
     while (tmp_x) {  
@@ -155,7 +155,7 @@ void long_long_char(long long x, char str[]) {
 
     // 将 long long 型 x 转换为字符串  
     while (x) {  
-        unsigned long long a = x / flag; // 修改为 long long 类型  
+        unsigned long a = x / flag; // 修改为 long long 类型  
         x %= flag;  
         flag /= 10;  
         str[tmp_index++] = a + '0';  
@@ -309,10 +309,10 @@ static bool make_token(char *e) {
         if(tokens[i].type == 259)// Hex num
         {
             //printf("Value : %s\n",tokens[i].str);
-            long long value = strtol(tokens[i].str, NULL, 16);
+            unsigned long value = strtol(tokens[i].str, NULL, 16);
 
     	    //printf("Value : %lld\n",value);
-    	    long_long_char(value, tokens[i].str);
+    	    unsigned_long_char(value, tokens[i].str);
     	    //printf("Value : %s\n",tokens[i].str);           
         }
     }
@@ -415,10 +415,6 @@ uint32_t eval(int p, int q) {
          * For now this token should be a number.
          * Return the value of the number.
          */
-         
-        //uint32_t result = atoi(tokens[p].str);
-        //printf("Decimal: %u, Hex: 0x%x\n", result, result);
-        //return result;
         
         return atoi(tokens[p].str);
     }
