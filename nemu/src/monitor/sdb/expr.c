@@ -328,29 +328,29 @@ static bool make_token(char *e) {
     //对-1进行处理
     for(int i = 0 ; i < tokens_len ; i ++)
     {
-	if((tokens[i].type == '-' && i > 0 && tokens[i-1].type != TK_DECIMAL && tokens[i+1].type == TK_DECIMAL)
-		||
-		(tokens[i].type == '-' && i == 0)
-	  )
-	{
-	    //printf("%s\n", tokens[i+1].str);
-	    tokens[i].type = TK_NOTYPE;
-	    //tokens[i].str = tmp;
-	    for(int j = 31 ; j >= 0 ; j --){
-		tokens[i+1].str[j] = tokens[i+1].str[j-1];//向后移一位
-	    }
-	    tokens[i+1].str[0] = '-';
-	    // printf("%s\n", tokens[i+1].str);
-	    for(int j = 0 ; j < tokens_len ; j ++){
-		if(tokens[j].type == TK_NOTYPE)
+		if((tokens[i].type == '-' && i > 0 && tokens[i-1].type != TK_DECIMAL && tokens[i+1].type == TK_DECIMAL)
+			||
+			(tokens[i].type == '-' && i == 0)
+		  )
 		{
-		    for(int k = j +1 ; k < tokens_len ; k ++){
-			tokens[k - 1] = tokens[k];
-		    }
-		    tokens_len -- ;
+			printf("处理负数");
+			tokens[i].type = TK_NOTYPE;
+			//tokens[i].str = tmp;
+			for(int j = 31 ; j >= 0 ; j --){
+			tokens[i+1].str[j] = tokens[i+1].str[j-1];//向后移一位
+			}
+			tokens[i+1].str[0] = '-';
+			// printf("%s\n", tokens[i+1].str);
+			for(int j = 0 ; j < tokens_len ; j ++){
+			if(tokens[j].type == TK_NOTYPE)
+				{
+					for(int k = j +1 ; k < tokens_len ; k ++){
+					tokens[k - 1] = tokens[k];
+					}
+					tokens_len -- ;
+				}
+			}
 		}
-	    }
-	}
     }
     //对*指针进行预处理
     for(int i = 0 ; i < tokens_len ; i ++)
@@ -495,7 +495,8 @@ uint32_t eval(int p, int q) {
             case '*':
                 return val1 * val2;
             case '/':
-                if(val2 == 0){//printf("division can't zero;\n");
+                if(val2 == 0){
+                	printf("division can't zero;\n");
                     division_zero = true;
                     return 0;
                 }
