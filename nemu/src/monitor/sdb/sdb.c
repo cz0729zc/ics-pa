@@ -202,7 +202,7 @@ static int cmd_p(char* args){
     bool flag = false;
     
     uint32_t result = expr(args, &flag);
-    printf("Decimal: %u, Hex: 0x%x\n", result, result);   	
+    printf("Decimal: %u, Hex: 0x%08x\n", result, result);   	
     return 0;
 }
 
