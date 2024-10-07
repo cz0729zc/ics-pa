@@ -226,7 +226,8 @@ static int cmd_test(char *args){
         real_val = atoi(token); // 将数字部分转换为整数
  
         // 处理表达式部分，可能跨越多行
-        strcpy(buf, ""); // 清空buf
+        //strcpy(buf, ""); // 清空buf
+        strncpy(buf, "", sizeof(buf));
         while ((token = strtok(NULL, "\n")) != NULL) {
             strcat(buf, token);
             strcat(buf, " "); // 拼接换行后的部分，注意添加空格以分隔多行内容
