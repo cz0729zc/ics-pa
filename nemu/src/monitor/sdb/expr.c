@@ -161,7 +161,7 @@ void unsigned_long_char(unsigned long x, char str[]) {
     flag /= 10;  
 
     // 将 unsigned long 型 x 转换为字符串  
-    while (x) {  
+    while (flag) {  
         unsigned long a = x / flag;
         x %= flag;  
         flag /= 10;  
