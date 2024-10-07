@@ -479,7 +479,7 @@ uint32_t eval(int p, int q) {
             
             
         }
-              printf("op position is %d\n", op);
+              //printf("op position is %d\n", op);
         // if register return $register
         int  op_type = tokens[op].type;
         // 递归处理剩余的部分
