@@ -343,13 +343,14 @@ static bool make_token(char *e) {
 			tokens[i+1].str[0] = '-';
 			// printf("%s\n", tokens[i+1].str);
 			for(int j = 0 ; j < tokens_len ; j ++){
-			if(tokens[j].type == TK_NOTYPE)
-				{
-					for(int k = j +1 ; k < tokens_len ; k ++){
-					tokens[k - 1] = tokens[k];
+				if(tokens[j].type == TK_NOTYPE)
+					{
+						for(int k = j +1 ; k < tokens_len ; k ++){
+						tokens[k - 1] = tokens[k];
+						}
+						tokens_len -- ;
 					}
-					tokens_len -- ;
-				}
+				printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
 			}
 		}
     }
@@ -386,10 +387,10 @@ static bool make_token(char *e) {
 		}
     }
     
-    for(int i = 0 ; i < tokens_len ; i ++)
-    {
-    	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
-    }
+    //for(int i = 0 ; i < tokens_len ; i ++)
+    //{
+    //	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
+    //}
   return true;
 }
 
