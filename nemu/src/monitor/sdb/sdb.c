@@ -210,7 +210,7 @@ static int cmd_d (char *args){
     if(args == NULL)
         printf("No args.\n");
     else{
-        delete_watchpoint(atoi(args));
+        delete_watchpoint(atoi( args));
     }
     return 0;
 }
