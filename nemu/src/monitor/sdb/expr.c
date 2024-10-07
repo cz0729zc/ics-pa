@@ -380,8 +380,8 @@ static bool make_token(char *e) {
             tokens[i].type = TK_NOTYPE;
             int tmp = char_int(tokens[i+1].str);
             uintptr_t a = (uintptr_t)tmp;
-            int value = *((int*)a);
-            int_char(value, tokens[i+1].str);	    
+            unsigned long value = *((int*)a);
+            unsigned_long_char(value, tokens[i+1].str);	    
             // 
             for(int j = 0 ; j < tokens_len ; j ++){
                 if(tokens[j].type == TK_NOTYPE){
