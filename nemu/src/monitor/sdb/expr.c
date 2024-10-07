@@ -343,10 +343,10 @@ static bool make_token(char *e) {
             tokens[i + 1].str[0] = '-'; // 添加负号  
             tokens[i + 1].type = TK_DECIMAL; // 设置为负数  
             tokens_len--; // 更新 tokens 的数量 
-    	for(int i = 0 ; i < tokens_len ; i ++)
-    	{
-    		printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
-    	}
+    	//for(int i = 0 ; i < tokens_len ; i ++)
+    	//{
+    	//	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
+    	//}
 		}
     }
     //对*指针进行预处理
@@ -382,10 +382,6 @@ static bool make_token(char *e) {
 		}
     }
     
-    //for(int i = 0 ; i < tokens_len ; i ++)
-    //{
-    //	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
-    //}
   return true;
 }
 
