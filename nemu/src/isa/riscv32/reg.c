@@ -44,7 +44,7 @@ word_t isa_reg_str2val(const char *s, bool *success) {
     }    
     for (i = 0; i < sizeof(regs) / sizeof(regs[0]); i++) {
         if(strcmp(s, regs[i]) == 0) {
-            printf("%s: %u, Hex:0x%x\n", regs[i], cpu.gpr[i],cpu.gpr[i]);
+            printf("%s: %u, Hex:0x%08x\n", regs[i], cpu.gpr[i],cpu.gpr[i]);
             *success = true;
             return cpu.gpr[i];
         }
