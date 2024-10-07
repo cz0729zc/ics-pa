@@ -26,13 +26,13 @@ bool division_zero = false;
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, 
+  TK_NOTYPE = 256,   // 空格
   TK_DECIMAL = 257,  // 十进制整数
-  RESGISTER = 258,
-  HEX = 259,
-  TK_EQ = 1 ,
-  TK_LEQ = 2,     //261
-  TK_NOTEQ = 3,
+  RESGISTER = 258,   // 寄存器
+  HEX = 259,      	 // 16进制数
+  TK_EQ = 1 ,        // ==
+  TK_LEQ = 2,      	 // 小于等于
+  TK_NOTEQ = 3, 	//  不等于
   OR = 4,
   AND = 5,
 
