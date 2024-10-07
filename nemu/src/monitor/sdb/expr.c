@@ -297,6 +297,7 @@ static bool make_token(char *e) {
 	tokens_len ++;
     }
     
+    
     //初始化tokens寄存器 
     for(int i = 0 ; i < tokens_len ; i ++)
     {
@@ -383,6 +384,11 @@ static bool make_token(char *e) {
                 }
             }
 		}
+    }
+    
+    for(int i = 0 ; i < tokens_len ; i ++)
+    {
+    	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);
     }
   return true;
 }
