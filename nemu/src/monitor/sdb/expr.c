@@ -35,7 +35,7 @@ enum {
   TK_NOTEQ = 3, 	//  不等于
   OR = 4,
   AND = 5,
-
+  
   /* TODO: Add more token types */
 
 };
@@ -362,40 +362,37 @@ static bool make_token(char *e) {
 		}
     }
     //对*指针进行预处理
-    /*
-    for(int i = 0 ; i < tokens_len ; i ++)
-    {
-	if(	(tokens[i].type == '*' && i > 0 
-		    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
-		    && tokens[i+1].type == TK_DECIMAL 
-		    )
-                ||
-		(tokens[i].type == '*' && i > 0
-                    && tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER
-                    && tokens[i+1].type == HEX
-                    )
-		||
-                (tokens[i].type == '*' && i == 0)
-          )
-		{
-            tokens[i].type = TK_NOTYPE;
-            int tmp = char_int(tokens[i+1].str);
-            uintptr_t a = (uintptr_t)tmp;
-            unsigned long value = *((int*)a);
-            unsigned_long_char(value, tokens[i+1].str);	    
-            // 
-            for(int j = 0 ; j < tokens_len ; j ++){
-                if(tokens[j].type == TK_NOTYPE){
-                    for(int k = j +1 ; k < tokens_len ; k ++){
-                    tokens[k - 1] = tokens[k];
-                }
-                    tokens_len -- ;
-                    nr_token--;
-                }
-            }
+    
+	for (int i = 0; i < tokens_len; i++) {
+		// 判断当前的 '*' 是指针解引用
+		if ((tokens[i].type == '*' && i > 0 &&
+		     tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER && tokens[i-1].type != ')' &&
+		     (tokens[i+1].type == TK_DECIMAL || tokens[i+1].type == HEX)) 
+		    || 
+		    (tokens[i].type == '*' && i == 0)) {
+		    
+		    // 将 '*' 标记为不需要的 token，准备移除
+		    tokens[i].type = TK_NOTYPE;
+
+		    // 获取 '*' 后的数字或地址值，并进行解引用
+		    int tmp = char_int(tokens[i+1].str); // 将数字或地址字符串转为整数
+		    uintptr_t addr = (uintptr_t)tmp;     // 将整数转换为指针地址
+		    unsigned long value = *((unsigned long*)addr); // 解引用该地址
+
+		    // 将解引用后的值转换为字符串，存储在 tokens[i+1]
+		    unsigned_long_char(value, tokens[i+1].str); // 将值写回 tokens[i+1]
+
+		    // 删除 `*` 这个 token，并调整数组长度
+		    for (int j = i; j < tokens_len - 1; j++) {
+		        tokens[j] = tokens[j + 1];  // 将后续 token 向前移动
+		    }
+		    tokens_len--;   // 更新 token 长度
+		    nr_token--;     // 更新 token 总数
+
+		    i--;  // 回退索引以重新检查移动后的 token
 		}
-    }
-    */
+	}
+
   return true;
 }
 
