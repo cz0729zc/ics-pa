@@ -211,7 +211,6 @@ static int cmd_test(char *args){
  
     // 循环读取每一条记录
     for (int i = 0; i < 100; i++) {
-   	printf("buf:%s\n",buf);
         // 读取一行记录
         if (fgets(record, sizeof(record), input_file) == NULL) {
             perror("Error reading input file");
@@ -232,6 +231,7 @@ static int cmd_test(char *args){
         while ((token = strtok(NULL, "\n")) != NULL) {
             strcat(buf, token);
             strcat(buf, " "); // 拼接换行后的部分，注意添加空格以分隔多行内容
+            printf("buf:%s\n",buf);
         }
  
         // 输出结果
