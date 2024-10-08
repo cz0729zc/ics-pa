@@ -539,6 +539,8 @@ word_t expr(char *e, bool *success) {
       // 调用eval函数计算表达式的值
     word_t result = eval(0, nr_token - 1);
     
+    memset(tokens, 0, sizeof(tokens)); // 清空 tokens 数组 
+    
     if (division_zero) {
         // 处理除以0的情况
         *success = false;
