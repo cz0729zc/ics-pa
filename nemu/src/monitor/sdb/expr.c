@@ -423,7 +423,7 @@ bool check_parentheses(int p, int q)
  
 
 uint32_t eval(int p, int q) {
-	//printf("Entering eval with p=%d, q=%d\n", p, q);
+	printf("Entering eval with p=%d, q=%d\n", p, q);
     if (p > q) {
         /* Bad expression */
         assert(0);
@@ -459,10 +459,6 @@ uint32_t eval(int p, int q) {
                 while(tokens[i].type != ')')
                     i ++;
             }
-            if(!flag && (tokens[i].type == '*' || tokens[i].type == '/') ){
-            	flag = true;
-                op = max(op, i);
-            }
             if(!flag && tokens[i].type == 4){
                 flag = true;
                 op = max(op,i);
@@ -483,6 +479,10 @@ uint32_t eval(int p, int q) {
                 flag = true;
                 op = max(op,i);
             }  
+            if(!flag && (tokens[i].type == '*' || tokens[i].type == '/') ){
+            	flag = true;
+                op = max(op, i);
+            }
             if(!flag && (tokens[i].type == '+' || tokens[i].type == '-')){
                 flag = true;
                 op = max(op, i);
