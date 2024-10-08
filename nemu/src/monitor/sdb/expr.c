@@ -362,6 +362,7 @@ static bool make_token(char *e) {
 		}
     }
     //对*指针进行预处理
+    /*
     for(int i = 0 ; i < tokens_len ; i ++)
     {
 	if(	(tokens[i].type == '*' && i > 0 
@@ -394,7 +395,7 @@ static bool make_token(char *e) {
             }
 		}
     }
-    
+    */
   return true;
 }
 
