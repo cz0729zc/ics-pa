@@ -168,7 +168,7 @@ void unsigned_long_char(unsigned long x, char str[]) {
         str[tmp_index++] = a + '0';  
     }
     str[tmp_index] = '\0';
-    printf("str:%s\n", str);  
+    //printf("str:%s\n", str);  
 }  
 
 
@@ -505,6 +505,7 @@ uint32_t eval(int p, int q) {
             case '-':
                 return val1 - val2;
             case '*':
+            	printf("使用乘法");
                 return val1 * val2;
             case '/':
                 if(val2 == 0){
