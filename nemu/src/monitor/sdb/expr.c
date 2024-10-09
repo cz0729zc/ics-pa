@@ -503,7 +503,7 @@ uint32_t eval(int p, int q) {
         }
         
         if (op == -1 && (tokens[p].type == '(' &&tokens[q].type == ')')) {
-        	eval(p + 1, q - 1);
+        	 return eval(p + 1, q - 1);
         }
         
         if (op == -1) {
