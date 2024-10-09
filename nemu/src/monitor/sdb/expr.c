@@ -350,7 +350,7 @@ static bool make_token(char *e) {
 					tokens[k - 1] = tokens[k];
 				  }
 				  tokens_len --;
-				  //nr_token--;   //全局变量也要减
+				  nr_token--;   //全局变量也要减
 				}
 			}
             
