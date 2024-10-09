@@ -481,8 +481,10 @@ uint32_t eval(int p, int q) {
         for (int i = p; i <= q; i++) {
             if (tokens[i].type == '(') {
                 parentheses_level++;
+				continue;
             } else if (tokens[i].type == ')') {
                 parentheses_level--;
+				continue;
             }
 
             if (parentheses_level == 0) {
