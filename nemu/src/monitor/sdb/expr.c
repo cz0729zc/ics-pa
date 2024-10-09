@@ -426,7 +426,7 @@ bool check_parentheses(int p, int q)
 
         else l ++;
     }
-	
+	printf("包围\n");
     return true;
 }
 
