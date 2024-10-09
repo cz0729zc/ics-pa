@@ -501,7 +501,11 @@ uint32_t eval(int p, int q) {
                 }
             }
         }
-
+        
+        if (op == -1 && (tokens[p].type == '(' &&tokens[q].type == ')')) {
+        	eval(p + 1, q - 1);
+        }
+        
         if (op == -1) {
             printf("No operator found.\n");
             assert(0);
