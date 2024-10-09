@@ -442,7 +442,7 @@ int get_operator_priority(int type) {
         case '/':
             return 5; // 乘除优先级最高
         default:
-            return 0; // 非运算符
+            return 100; // 非运算符
     }
 }
 
@@ -475,7 +475,7 @@ uint32_t eval(int p, int q) {
        }*/
     else {
         int op = -1; // op = the position of 主运算符 in the token expression;
-        int min_priority = 1000; // 初始化为一个较大的值
+        int min_priority = 99; // 初始化为一个较大的值
         int parentheses_level = 0; // 记录当前括号的层级
 
         for (int i = p; i <= q; i++) {
