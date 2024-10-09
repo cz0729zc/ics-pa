@@ -400,7 +400,11 @@ static bool make_token(char *e) {
 bool check_parentheses(int p, int q)
 {
     if(tokens[p].type != '('  || tokens[q].type != ')')
-        return false;
+	{
+		printf("未包围\n");
+		return false;
+	}
+        
     int l = p , r = q;
     while(l < r)
     {
@@ -416,12 +420,13 @@ bool check_parentheses(int p, int q)
         }
         else if(tokens[l].type == ')')
 		{
-			printf("不匹配");
+			printf("不匹配\n");
             return false;			
 		}
 
         else l ++;
     }
+	
     return true;
 }
 
