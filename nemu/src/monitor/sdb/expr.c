@@ -415,9 +415,10 @@ bool check_parentheses(int p, int q) {
         }
 
         // 如果在遍历过程中，右括号比左括号多，说明不匹配
-        /*if (parentheses_count < 0) {
+        if (parentheses_count < 0) {
+			printf("不匹配");
             return false;
-        }*/
+        }
     }
 
     // 最终计数器应回到0，表示括号匹配
