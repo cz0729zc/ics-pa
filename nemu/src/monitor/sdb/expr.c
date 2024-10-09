@@ -495,7 +495,7 @@ uint32_t eval(int p, int q) {
             printf("No operator found.\n");
             assert(0);
         }
-        //printf("op position is %d\n", op);
+        printf("op position is %d\n", op);
         int  op_type = tokens[op].type;
         // 递归处理剩余的部分
         uint32_t  val1 = eval(p, op - 1);
