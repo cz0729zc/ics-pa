@@ -458,7 +458,7 @@ uint32_t eval(int p, int q) {
         
         return atoi(tokens[p].str);
     }
-    else if (check_parentheses(p, q)) {
+    else if (check_parentheses(p, q) || (tokens[p].type == '(' && tokens[q].type == ')')) {
         /* The expression is surrounded by a matched pair of parentheses.
          * If that is the case, just throw away the parentheses.
          */
@@ -508,7 +508,7 @@ uint32_t eval(int p, int q) {
             case '-':
                 return val1 - val2;
             case '*':
-            	printf("使用乘法");
+            	printf("使用乘法\n");
                 return val1 * val2;
             case '/':
                 if(val2 == 0){
