@@ -469,10 +469,10 @@ uint32_t eval(int p, int q) {
          printf("check p = %d, q = %d\n",p , q);
         return eval(p + 1, q - 1);
     }
-    else if(check_parentheses(p, q) == false){
+    /*else if(check_parentheses(p, q) == false){
        printf("Unique\n");
        return -1;
-       }
+       }*/
     else {
         int op = -1; // op = the position of 主运算符 in the token expression;
         int min_priority = 1000; // 初始化为一个较大的值
