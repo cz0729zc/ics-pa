@@ -33,8 +33,8 @@ enum {
   TK_EQ = 1 ,        // ==
   TK_LEQ = 2,      	 // 小于等于
   TK_NOTEQ = 3, 	//  不等于
-  OR = 4,
-  AND = 5,
+  TK_OR = 4,
+  TK_AND = 5,
   
   /* TODO: Add more token types */
 
@@ -66,8 +66,8 @@ static struct rule {
   {"\\<\\=",TK_LEQ},        // 小于等于
   {"\\!\\=", TK_NOTEQ},      // 不等于
   
-  {"\\|\\|", OR},           // 或
-  {"\\&\\&", AND},          // 与
+  {"\\|\\|", TK_OR},           // 或
+  {"\\&\\&", TK_AND},          // 与
   {"\\!", '!'},             // 非
   
   {"\\$[a-zA-Z]*[0-9]*", RESGISTER},   //寄存器
@@ -266,12 +266,12 @@ static bool make_token(char *e) {
 	    stpcpy(tokens[nr_token].str, "!=");
 	    nr_token++;
 	    break;
-	  case OR:
+	  case TK_OR:
 	    tokens[nr_token].type = 4;
 	    stpcpy(tokens[nr_token].str, "||");
 	    nr_token++;
 	    break;
-	  case AND:
+	  case TK_AND:
 	    tokens[nr_token].type = 5;
 	    stpcpy(tokens[nr_token].str, "&&");
 	    nr_token++;
@@ -420,7 +420,28 @@ bool check_parentheses(int p, int q)
     }
     return true;
 }
- 
+
+//获取优先级
+int get_operator_priority(int type) {
+    switch (type) {
+        case TK_OR:
+            return 1; // OR 优先级最低
+        case TK_AND:
+            return 2;
+        case TK_LEQ:
+        case TK_NOTEQ:
+            return 3;
+        case '+':
+        case '-':
+            return 4;
+        case '*':
+        case '/':
+            return 5; // 乘除优先级最高
+        default:
+            return 100; // 非运算符
+    }
+}
+
 
 uint32_t eval(int p, int q) {
 	printf("Entering eval with p=%d, q=%d\n", p, q);
@@ -451,52 +472,35 @@ uint32_t eval(int p, int q) {
        */
     else {
         int op = -1; // op = the position of 主运算符 in the token expression;
-        bool flag = false;
-        for(int i = p ; i <= q ; i ++)
-        {
-            if(tokens[i].type == '(')
-            {
-                while(tokens[i].type != ')')
-                    i ++;
+        int min_priority = 100; // 初始化为一个较大的值
+        int parentheses_level = 0; // 记录当前括号的层级
+
+        for (int i = p; i <= q; i++) {
+            if (tokens[i].type == '(') {
+                parentheses_level++;
+            } else if (tokens[i].type == ')') {
+                parentheses_level--;
             }
-            if(!flag && tokens[i].type == 4){
-                flag = true;
-                op = max(op,i);
+
+            if (parentheses_level == 0) {
+                int current_priority = get_operator_priority(tokens[i].type);
+                if (current_priority <= min_priority) {
+                    min_priority = current_priority;
+                    op = i;
+                }
             }
-            if(!flag && tokens[i].type == 5){
-                flag = true;
-                op = max(op,i);
-            }
-            if(!flag && tokens[i].type == 3){
-                flag = true;
-                op = max(op,i);
-            }  
-            if(!flag && tokens[i].type == 1){
-                flag = true;
-                op = max(op,i);
-            }  
-            if(!flag && tokens[i].type == 2){
-                flag = true;
-                op = max(op,i);
-            }  
-            if(!flag && (tokens[i].type == '*' || tokens[i].type == '/') ){
-            	flag = true;
-                op = max(op, i);
-            }
-            if(!flag && (tokens[i].type == '+' || tokens[i].type == '-')){
-                flag = true;
-                op = max(op, i);
-            }
-            
-            
         }
-              //printf("op position is %d\n", op);
-        // if register return $register
+
+        if (op == -1) {
+            printf("No operator found.\n");
+            assert(0);
+        }
+        //printf("op position is %d\n", op);
         int  op_type = tokens[op].type;
         // 递归处理剩余的部分
         uint32_t  val1 = eval(p, op - 1);
         uint32_t  val2 = eval(op + 1, q);
-             printf("val1 = %d, val2 = %d \n", val1, val2);
+        printf("val1 = %d, val2 = %d \n", val1, val2);
 
         switch (op_type) {
             case '+':
