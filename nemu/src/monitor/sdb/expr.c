@@ -519,7 +519,7 @@ uint32_t eval(int p, int q) {
             case '-':
                 return val1 - val2;
             case '*':
-            	printf("使用乘法\n");
+            	//printf("使用乘法\n");
                 return val1 * val2;
             case '/':
                 if(val2 == 0){
