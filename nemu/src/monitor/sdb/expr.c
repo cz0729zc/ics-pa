@@ -442,7 +442,7 @@ int get_operator_priority(int type) {
         case '/':
             return 5; // 乘除优先级最高
         default:
-            return 100; // 非运算符
+            return 0; // 非运算符
     }
 }
 
