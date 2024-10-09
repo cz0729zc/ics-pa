@@ -397,29 +397,33 @@ static bool make_token(char *e) {
 }
 
 
-bool check_parentheses(int p, int q)
-{
-    if(tokens[p].type != '('  || tokens[q].type != ')')
+bool check_parentheses(int p, int q) {
+    // 首先检查开头和结尾的括号是否为一对
+    if (tokens[p].type != '(' || tokens[q].type != ')') {
         return false;
-    int l = p , r = q;
-    while(l < r)
-    {
-        if(tokens[l].type == '('){
-            if(tokens[r].type == ')')
-            {
-                l ++ , r --;
-                continue;
-            }
-
-            else
-                r --;
-        }
-        else if(tokens[l].type == ')')
-            return false;
-        else l ++;
     }
-    return true;
+
+    // 计数器用来记录括号的匹配情况
+    int parentheses_count = 0;
+
+    // 遍历 p+1 到 q-1，检查括号是否成对匹配
+    for (int i = p; i <= q; i++) {
+        if (tokens[i].type == '(') {
+            parentheses_count++; // 遇到左括号，计数器加一
+        } else if (tokens[i].type == ')') {
+            parentheses_count--; // 遇到右括号，计数器减一
+        }
+
+        // 如果在遍历过程中，右括号比左括号多，说明不匹配
+        if (parentheses_count < 0) {
+            return false;
+        }
+    }
+
+    // 最终计数器应回到0，表示括号匹配
+    return parentheses_count == 0;
 }
+
 
 //获取优先级
 int get_operator_priority(int type) {
@@ -458,7 +462,7 @@ uint32_t eval(int p, int q) {
         
         return atoi(tokens[p].str);
     }
-    else if (check_parentheses(p, q) || (tokens[p].type == '(' && tokens[q].type == ')')) {
+    else if (check_parentheses(p, q)) {
         /* The expression is surrounded by a matched pair of parentheses.
          * If that is the case, just throw away the parentheses.
          */
