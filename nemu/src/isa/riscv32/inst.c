@@ -61,7 +61,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_U:                   immU(); break;
     case TYPE_S: src1R(); src2R(); immS(); break;
     case TYPE_J:                   immJ(); break;
-    case TYPE_B: src1R(); src2R(); immB(); printf("rs1: %u,rs2: %u, rd: %u, imm: %d\n",rs1,rs2,*rd,*imm); break;
+    case TYPE_B: src1R(); src2R(); immB(); printf("rs1: %u,rs2: %u, rd: %u, imm: %d\n",*src1,*src2,*rd,*imm); break;
     //case TYPE_B: src1R(); src2R(); immB(); break;
   }
 }
@@ -89,7 +89,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->snpc; s->dnpc = (src1 + imm) & ~1);//确保整数倍
   INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne    , B, \
     if (src1 != src2) { \
-        s->dnpc = (src1 + imm) & ~1; \
+        s->dnpc = (s->pc + imm) & ~1; \
     }); 
   
   
