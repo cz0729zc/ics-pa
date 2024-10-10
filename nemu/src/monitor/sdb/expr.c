@@ -406,7 +406,7 @@ bool check_parentheses(int p, int q)
 	}//处理表达式外面被括号包裹
 	else {
 		int parentheses_count = 0; // 记录当前括号的层级
-
+		printf("最外面被包围\n");
         for (int i = p; i <= q; i++) {
             if (tokens[i].type == '(') {
                 parentheses_count++;
