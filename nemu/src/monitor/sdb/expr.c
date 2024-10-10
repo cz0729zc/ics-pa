@@ -404,6 +404,7 @@ bool check_parentheses(int p, int q)
 		printf("未包围\n");
 		return false;
 	}//处理表达式外面被括号包裹
+	/*
 	else {
 		int parentheses_count = 0; // 记录当前括号的层级
 		printf("最外面被包围\n");
@@ -421,7 +422,7 @@ bool check_parentheses(int p, int q)
 			return true;
         }
 	}
-        
+     */   
     int l = p , r = q;
     while(l < r)
     {
