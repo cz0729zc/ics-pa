@@ -27,10 +27,21 @@ const char *regs[] = {
 void isa_reg_display() {
     int i;
     for (i = 0; i < sizeof(regs) / sizeof(regs[0]); i++) {
+    	if(cpu.gpr[i] != 0)
         printf("%s: 0x%x\n", regs[i], cpu.gpr[i]);
     }
 }
-
+/*
+void isa_reg_display_withoutZero() {
+    int i;
+    for (i = 0; i < sizeof(regs) / sizeof(regs[0]); i++) {
+    	if(cpu.gpr[i] != 0)
+    	{
+        	printf("%s: 0x%x\n", regs[i], cpu.gpr[i]);    		
+    	}
+    }
+}
+*/
 word_t isa_reg_str2val(const char *s, bool *success) {
     int i,j;
     for (j = 0; j < sizeof(regs) / sizeof(regs[0]); j++) {
