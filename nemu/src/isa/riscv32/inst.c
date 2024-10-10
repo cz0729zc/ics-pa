@@ -24,7 +24,7 @@
 
 enum {
   TYPE_I, TYPE_U, TYPE_S,
-  TYPE_N, TYPE_J,// none
+  TYPE_N, TYPE_J, TYPE_B,// none
 };
 
 #define src1R() do { *src1 = R(rs1); } while (0)
@@ -41,6 +41,13 @@ enum {
            *imm = SEXT(*imm, 21);              /* 符号扩展 21 位立即数 */ \
 } while(0)
 
+#define immB() do { \
+    *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | /* imm[12] */ \
+           (BITS(i, 7, 7) << 11) |		/* imm[11] */ \
+           (BITS(i, 30, 25) << 5) |           /* imm[10:5] */ \
+           (BITS(i, 11,8) << 1);                  /* imm[4:1] */ \
+           *imm = SEXT(*imm, 13);                    /* 符号扩展 13 位立即数 */ \
+} while(0)  
 
 
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
@@ -49,10 +56,13 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
   int rs2 = BITS(i, 24, 20);
   *rd     = BITS(i, 11, 7);
   switch (type) {
-    case TYPE_I: src1R();          immI();printf("rs1: %u, rd: %u, imm: %d\n",rs1,*rd,*imm); break;
+    //case TYPE_I: src1R();          immI();printf("rs1: %u, rd: %u, imm: %d\n",rs1,*rd,*imm); break;
+    case TYPE_I: src1R();          immI(); break;
     case TYPE_U:                   immU(); break;
     case TYPE_S: src1R(); src2R(); immS(); break;
     case TYPE_J:                   immJ(); break;
+    case TYPE_B: src1R(); src2R(); immB(); printf("rs1: %u,rs2: %u, rd: %u, imm: %d\n",rs1,rs2,*rd,*imm); break;
+    //case TYPE_B: src1R(); src2R(); immB(); break;
   }
 }
 
@@ -77,7 +87,10 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->snpc; s->dnpc = s->pc + imm);
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->snpc; s->dnpc = (src1 + imm) & ~1);//确保整数倍
-  INSTPAT("??????? ????? ????? 101 ????? 00100 11", srai   , I, R(rd) = src1+imm);
+  INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne    , B, \
+    if (src1 != src2) { \
+        s->dnpc = (src1 + imm) & ~1; \
+    }); 
   
   
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
