@@ -113,7 +113,7 @@ static int decode_exec(Decode *s) {
       s->dnpc = (s->pc + imm) & ~1; \
   }); 
   INSTPAT("??????? ????? ????? 100 ????? 11000 11", blt    , B, \
-  if (src1 < src2) { \
+  if ((int)src1 < (int)src2) { \
       s->dnpc = (s->pc + imm) & ~1; \
   }); 
 
