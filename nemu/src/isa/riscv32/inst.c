@@ -38,16 +38,16 @@ enum {
     *imm = (SEXT(BITS(i, 31, 31), 1) << 20) | /* imm[20] */ \
            (BITS(i, 19, 12) << 12) |          /* imm[19:12] */ \
            (BITS(i, 20, 20) << 11) |          /* imm[11] */ \
-           (BITS(i, 30, 21) << 1);             /* imm[10:1] */ \
-           *imm = SEXT(*imm, 21);              /* 符号扩展 21 位立即数 */ \
+           (BITS(i, 30, 21) << 1);            /* imm[10:1] */ \
+           *imm = SEXT(*imm, 21);             /* 符号扩展 21 位立即数 */ \
 } while(0)
 
 #define immB() do { \
     *imm = (SEXT(BITS(i, 31, 31), 1) << 12) | /* imm[12] */ \
-           (BITS(i, 7, 7) << 11) |		/* imm[11] */ \
+           (BITS(i, 7, 7) << 11) |		        /* imm[11] */ \
            (BITS(i, 30, 25) << 5) |           /* imm[10:5] */ \
-           (BITS(i, 11,8) << 1);                  /* imm[4:1] */ \
-           *imm = SEXT(*imm, 13);                    /* 符号扩展 13 位立即数 */ \
+           (BITS(i, 11,8) << 1);              /* imm[4:1] */ \
+           *imm = SEXT(*imm, 13);             /* 符号扩展 13 位立即数 */ \
 } while(0)  
 
 
@@ -91,6 +91,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 001 ????? 00000 11", lh     , I, R(rd) = SEXT(Mr(src1 + imm, 2),16));//符号位扩展，共读取两个字节八个比特位
   INSTPAT("??????? ????? ????? 101 ????? 00000 11", lhu    , I, R(rd) = Mr(src1 + imm, 2));
   INSTPAT("??????? ????? ????? 100 ????? 00000 11", lbu    , I, R(rd) = Mr(src1 + imm, 1));
+  INSTPAT("0000000 ????? ????? 001 ????? 00100 11", slli   , I, R(rd) = src1 << (imm & 0x1F));
   INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->snpc; s->dnpc = s->pc + imm);
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->snpc; s->dnpc = (src1 + imm) & ~1);//确保整数倍
