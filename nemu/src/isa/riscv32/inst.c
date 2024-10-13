@@ -118,12 +118,11 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 101 ????? 11000 11", bge    , B, \
   if ((int)src1 >= (int)src2) { \
       s->dnpc = (s->pc + imm) & ~1; \
-  }; \
-  printf("rs1: %3d,  rs2: %3d, \n",src1,src2);); 
+  };); 
   INSTPAT("??????? ????? ????? 100 ????? 11000 11", blt    , B, \
   if ((int)src1 < (int)src2) { \
       s->dnpc = (s->pc + imm) & ~1; \
-  }); 
+  };printf("rs1: %3d,  rs2: %3d, \n",src1,src2);); 
 
 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
