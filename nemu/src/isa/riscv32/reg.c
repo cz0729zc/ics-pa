@@ -28,7 +28,7 @@ void isa_reg_display() {
     int i;
     for (i = 0; i < sizeof(regs) / sizeof(regs[0]); i++) {
     	//if(cpu.gpr[i] != 0)
-        printf("%s: 0x%x\n", regs[i], cpu.gpr[i]);
+        printf("%d_%s: 0x%x\n", i, regs[i], cpu.gpr[i]);
     }
 }
 /*
