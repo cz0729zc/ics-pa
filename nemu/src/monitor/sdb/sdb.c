@@ -187,10 +187,10 @@ static int cmd_x(char *args){
     sscanf(baseaddr,"%x", &addr);
     //printf("addr = 0x%x\n", addr);
     
-    for(int i = 0 ; i < len ; i ++)
+    for(int i = len ; i > 0 ; i --)
     {
-        uint32_t data = paddr_read(addr + i * 4, 4); // 循环读取 4 字节数据  
-        printf("0x%08x: 0x%08x\n", addr + i * 4, data); // 使用 %08x 格式化为 8 位（填充零）  
+        uint32_t data = paddr_read(addr - i * 4, 4); // 循环读取 4 字节数据  
+        printf("0x%08x: 0x%08x\n", addr - i * 4, data); // 使用 %08x 格式化为 8 位（填充零）  
     }
     
     return 0;
