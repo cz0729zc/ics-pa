@@ -64,8 +64,8 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_J:                   immJ(); break;
     //case TYPE_B: src1R(); src2R(); immB(); printf("rs1: %u,rs2: %u, rd: %u, imm: %d\n",*src1,*src2,*rd,*imm); break;
     case TYPE_B: src1R(); src2R(); immB(); break;
-    //case TYPE_R: src1R(); src2R(); printf("rs1: %u,rs2: %u, rd: %u\n",*src1,*src2,*rd);       ; break;
-    case TYPE_R: src1R(); src2R();       ; break;
+    case TYPE_R: src1R(); src2R(); printf("rs1: %u,rs2: %u, rd: %u\n",*src1,*src2,*rd);       ; break;
+    //case TYPE_R: src1R(); src2R();       ; break;
   }
 }
 
@@ -100,11 +100,13 @@ static int decode_exec(Decode *s) {
       R(rd) = 1; \
     else \
       R(rd) = 0;);
+
   INSTPAT("0000000 ????? ????? 010 ????? 01100 11", slt    , R, \
     if ((int)src1 < (int)src2) \
       R(rd) = 1; \
     else \
       R(rd) = 0;);  
+
   INSTPAT("??????? ????? ????? 001 ????? 11000 11", bne    , B, \
     if ((int)src1 != (int)src2) { \
         s->dnpc = (s->pc + imm) & ~1; \
