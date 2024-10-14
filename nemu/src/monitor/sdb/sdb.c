@@ -239,7 +239,10 @@ static int cmd_test(char *args){
         // 输出结果
         printf("expr : %u, Real Value: %u, Expression: %s\n", res,real_val, buf);
         if(res == real_val)right_ans ++;
-        else assert(0);
+        else {
+          printf("test 100 expressions,the accuracy is %d/100\n",right_ans);
+          assert(0);
+        }
     }
     printf("test 100 expressions,the accuracy is %d/100\n",right_ans);
     fclose(input_file);
