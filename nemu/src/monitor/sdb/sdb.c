@@ -234,11 +234,10 @@ static int cmd_test(char *args){
             //printf("buf:%s\n",buf);
         }
  
-        // 输出结果
-        printf("Real Value: %u, Expression: %s\n", real_val, buf);
         bool flag = false;
         unsigned res = expr(buf,&flag);
-        printf("expr : %u, Expression: %s\n", res, buf);
+        // 输出结果
+        printf("expr : %u, Real Value: %u, Expression: %s\n", res,real_val, buf);
         if(res == real_val)right_ans ++;
         else assert(0);
     }
