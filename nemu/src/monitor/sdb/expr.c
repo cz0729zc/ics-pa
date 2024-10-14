@@ -329,7 +329,7 @@ static bool make_token(char *e) {
     //对-1进行处理
     for(int i = 0 ; i < tokens_len ; i ++)
     {
-		if (tokens[i].type == '-' && (i == 0 || (i > 0 && tokens[i-1].type != TK_DECIMAL)) && (i + 1 < tokens_len && tokens[i + 1].type == TK_DECIMAL))		
+		if (tokens[i].type == '-' && (i == 0 || (i > 0 && (tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != ')'))) && (i + 1 < tokens_len && tokens[i + 1].type == TK_DECIMAL))		
 		{
 			//printf("处理负数\n");
             tokens[i].type = TK_NOTYPE;  
