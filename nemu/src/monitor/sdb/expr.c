@@ -404,11 +404,10 @@ bool check_parentheses(int p, int q)
 		printf("未包围\n");
 		return false;
 	}//处理表达式外面被括号包裹
-	/*
 	else {
 		int parentheses_count = 0; // 记录当前括号的层级
 		printf("最外面被包围\n");
-        for (int i = p; i <= q; i++) {
+        for (int i = p+1; i <= q-1; i++) {
             if (tokens[i].type == '(') {
                 parentheses_count++;
             } else if (tokens[i].type == ')') {
@@ -421,8 +420,7 @@ bool check_parentheses(int p, int q)
         if (parentheses_count == 0) {
 			return true;
         }
-	}
-     */   
+	}   
     int l = p , r = q;
     while(l < r)
     {
