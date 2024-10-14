@@ -405,12 +405,12 @@ bool check_parentheses(int p, int q)
 {
     if(tokens[p].type != '('  || tokens[q].type != ')')
 	{
-		printf("未包围\n");
+		//printf("未包围\n");
 		return false;
 	}//处理表达式外面被括号包裹
 	else {
 		int parentheses_count = 0; // 记录当前括号的层级
-		printf("最外面被包围\n");
+		//printf("最外面被包围\n");
         for (int i = p+1; i <= q-1; i++) {
             if (tokens[i].type == '(') {
                 parentheses_count++;
@@ -440,13 +440,13 @@ bool check_parentheses(int p, int q)
         }
         else if(tokens[l].type == ')')
 		{
-			printf("不匹配\n");
+			//printf("不匹配\n");
             return false;			
 		}
 
         else l ++;
     }
-	printf("包围\n");
+	//printf("包围\n");
     return true;
 }
 
