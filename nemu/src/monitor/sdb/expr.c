@@ -392,7 +392,11 @@ static bool make_token(char *e) {
 		    i--;  // 回退索引以重新检查移动后的 token
 		}
 	}
-
+            //输出token长度和token
+			printf("Tokens length: %d\n", tokens_len);  
+			for (int i = 0; i < tokens_len; i++) {  
+				printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
+			} 
   return true;
 }
 
