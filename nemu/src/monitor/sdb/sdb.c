@@ -238,8 +238,9 @@ static int cmd_test(char *args){
         printf("Real Value: %u, Expression: %s\n", real_val, buf);
         bool flag = false;
         unsigned res = expr(buf,&flag);
+        printf("expr : %u, Expression: %s\n", res, buf);
         if(res == real_val)right_ans ++;
- 
+        else assert(0);
     }
     printf("test 100 expressions,the accuracy is %d/100\n",right_ans);
     fclose(input_file);
