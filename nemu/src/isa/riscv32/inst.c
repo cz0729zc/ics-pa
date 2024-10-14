@@ -115,7 +115,11 @@ static int decode_exec(Decode *s) {
       R(rd) = 1; \
     else \
       R(rd) = 0;);
-
+  INSTPAT("0000000 ????? ????? 011 ????? 01100 11", sltu   , R, \
+    if (src1<imm) \
+      R(rd) = 1; \
+    else \
+      R(rd) = 0;);
   INSTPAT("0000000 ????? ????? 010 ????? 01100 11", slt    , R, \
     if ((int)src1 < (int)src2) \
       R(rd) = 1; \
