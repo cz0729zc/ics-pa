@@ -514,7 +514,7 @@ uint32_t eval(int p, int q) {
 
             if (parentheses_level == 0) {
                 int current_priority = get_operator_priority(tokens[i].type);
-				printf("current_priority = %d\n",current_priority);
+				//printf("current_priority = %d\n",current_priority);
                 if (current_priority <= min_priority) {
                     min_priority = current_priority;
                     op = i;
