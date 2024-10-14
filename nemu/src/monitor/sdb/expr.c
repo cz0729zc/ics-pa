@@ -392,11 +392,11 @@ static bool make_token(char *e) {
 		    i--;  // 回退索引以重新检查移动后的 token
 		}
 	}
-            //输出token长度和token
-			printf("Tokens length: %d\n", tokens_len);  
-			for (int i = 0; i < tokens_len; i++) {  
-				printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
-			} 
+            // //输出token长度和token
+			// printf("Tokens length: %d\n", tokens_len);  
+			// for (int i = 0; i < tokens_len; i++) {  
+			// 	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
+			// } 
   return true;
 }
 
@@ -473,7 +473,7 @@ int get_operator_priority(int type) {
 
 
 uint32_t eval(int p, int q) {
-	printf("Entering eval with p=%d, q=%d\n", p, q);
+	//printf("Entering eval with p=%d, q=%d\n", p, q);
     if (p > q) {
         /* Bad expression */
         assert(0);
@@ -491,7 +491,7 @@ uint32_t eval(int p, int q) {
         /* The expression is surrounded by a matched pair of parentheses.
          * If that is the case, just throw away the parentheses.
          */
-         printf("check p = %d, q = %d\n",p , q);
+        //printf("check p = %d, q = %d\n",p , q);
         return eval(p + 1, q - 1);
     }
     /*else if(check_parentheses(p, q) == false){
@@ -530,12 +530,12 @@ uint32_t eval(int p, int q) {
             printf("No operator found.\n");
             assert(0);
         }*/
-        printf("op position is %d\n", op);
+        //printf("op position is %d\n", op);
         int  op_type = tokens[op].type;
         // 递归处理剩余的部分
         uint32_t  val1 = eval(p, op - 1);
         uint32_t  val2 = eval(op + 1, q);
-        printf("val1 = %d, val2 = %d \n", val1, val2);
+        //printf("val1 = %d, val2 = %d \n", val1, val2);
 
         switch (op_type) {
             case '+':
