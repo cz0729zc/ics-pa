@@ -103,14 +103,14 @@ static int decode_exec(Decode *s) {
   R(rd) = src1 >> shift; \
   if (sign_bit) { \
     R(rd) |= ((0xFFFFFFFF) << (32 - shift)); \
-  };printf("src1: 0x%0x ,src2 0x%0x R(rd): 0x%0x",src1,src2,R(rd)));
+  };printf("src1: 0x%0x ,src2 0x%0x R(rd): 0x%0x\n",src1,src2,R(rd)));
   INSTPAT("0100000 ????? ????? 101 ????? 00100 11", srai   , I, \
   word_t sign_bit = src1 & 0x80000000; \
   shift = imm & 0x1F; \
   R(rd) = src1 >> shift; \
   if (sign_bit) { \
     R(rd) |= ((0xFFFFFFFF) << (32 - shift)); \
-  };printf("src1: 0x%0x ,src2 0x%0x R(rd): 0x%0x",src1,src2,R(rd)));
+  };printf("src1: 0x%0x ,src2 0x%0x R(rd): 0x%0x\n",src1,src2,R(rd)));
   INSTPAT("??????? ????? ????? ??? ????? 00101 11", auipc  , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? ??? ????? 11011 11", jal    , J, R(rd) = s->snpc; s->dnpc = s->pc + imm);
   INSTPAT("??????? ????? ????? 000 ????? 11001 11", jalr   , I, R(rd) = s->snpc; s->dnpc = (src1 + imm) & ~1);//确保整数倍
