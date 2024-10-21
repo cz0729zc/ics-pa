@@ -240,7 +240,7 @@ static int cmd_test(char *args){
         printf("expr : %u, Real Value: %u, Expression: %s\n", res,real_val, buf);
         if(res == real_val)right_ans ++;
         else {
-          printf("test 100 expressions,the accuracy is %d/100\n",right_ans);
+          printf("error is %d/100\n",right_ans);
           assert(0);
         }
     }

@@ -97,6 +97,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("0000000 ????? ????? 101 ????? 00100 11", srli   , I, R(rd) = src1 >> (imm & 0x1F));
   INSTPAT("0000000 ????? ????? 001 ????? 01100 11", sll    , I, R(rd) = src1 << (src2 & 0x1F));
   INSTPAT("0000000 ????? ????? 101 ????? 01100 11", srl    , I, R(rd) = src1 >> (src2 & 0x1F));
+  
   INSTPAT("0100000 ????? ????? 101 ????? 01100 11", sra    , R, \
   word_t sign_bit = src1 & 0x80000000; \
   shift = src2 & 0x1F; \
@@ -104,6 +105,8 @@ static int decode_exec(Decode *s) {
   if (sign_bit) { \
     R(rd) |= ((0xFFFFFFFF) << (32 - shift)); \
   };printf("src1: 0x%0x ,src2 0x%0x R(rd): 0x%0x\n",src1,src2,R(rd)));
+
+
   INSTPAT("0100000 ????? ????? 101 ????? 00100 11", srai   , I, \
   word_t sign_bit = src1 & 0x80000000; \
   shift = imm & 0x1F; \
