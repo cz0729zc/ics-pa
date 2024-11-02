@@ -554,6 +554,7 @@ uint32_t eval(int p, int q) {
                 }
                 else if (check_negSign(op) && op==0)
                 {
+                    printf("val2 : 0x%08x",val2);
                     return paddr_read(val2,4);
                 }
                 else
