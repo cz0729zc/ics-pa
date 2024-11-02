@@ -554,6 +554,7 @@ uint32_t eval(int p, int q) {
             case '+':
                 return val1 + val2;
             case '-':
+                if(!check_negSign(op))
                 return val1 - val2;
             case '*':
             	//printf("使用乘法\n");
