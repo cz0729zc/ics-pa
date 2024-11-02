@@ -382,7 +382,7 @@ bool check_negSign(int op)
         return false;
     }
 }
-
+//判断解引用
 bool check_dereference(int op)
 {
     if ((tokens[op].type == '*' && op > 0 &&
