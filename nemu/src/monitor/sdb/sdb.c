@@ -191,8 +191,8 @@ static int cmd_x(char *args){
     uint32_t data = paddr_read(addr, 4);
     printf("0x%08x: 0x%08x\n", addr, data);
 
-    data = paddr_read(addr - 4, 4);
-    printf("0x%08x: 0x%08x\n", addr - 4, data);
+    data = paddr_read(addr + 4, 4);
+    printf("0x%08x: 0x%08x\n", addr + 4, data);
     // for(int i = len ; i > 0 ; i --)
     // {
     //     uint32_t data = paddr_read(addr - i * 4, 4); // 循环读取 4 字节数据  
