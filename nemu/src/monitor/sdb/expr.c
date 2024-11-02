@@ -517,6 +517,11 @@ uint32_t eval(int p, int q) {
         printf("op position is %d\n", op);
         int  op_type = tokens[op].type;
         // 递归处理剩余的部分
+        if (op!=0)
+        {
+            /* code */
+        }
+        
         uint32_t  val1 = eval(p, op - 1);
         uint32_t  val2 = eval(op + 1, q);
         //printf("val1 = %d, val2 = %d \n", val1, val2);
