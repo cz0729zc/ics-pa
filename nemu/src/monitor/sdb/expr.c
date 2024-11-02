@@ -468,7 +468,7 @@ int get_operator_priority(int type) {
 
 
 uint32_t eval(int p, int q) {
-	printf("Entering eval with p=%d, q=%d\n", p, q);
+	//printf("Entering eval with p=%d, q=%d\n", p, q);
     if (p > q) {
         /* Bad expression */
         assert(0);
