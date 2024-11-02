@@ -47,9 +47,6 @@ WP* new_wp(){
     for(WP* p = free_ ; p -> next != NULL ; p = p -> next){
         if( p -> flag == false){
             p -> flag = true;
-            if(head == NULL){
-                head = p;
-            }
             return p;
         }
     }
@@ -99,10 +96,15 @@ void delete_watchpoint(int no){
 void create_watchpoint(char* args){
     WP* p =  new_wp();
     strcpy(p -> expr, args);
+
+    if(head == NULL){
+        head = p;
+    }
+
     bool success = false;
     int tmp = expr(p -> expr,&success);
-   if(success) p -> old_value = tmp;
-   else printf("创建watchpoint的时候expr求值出现问题\n");
+    if(success) p -> old_value = tmp;
+    else printf("创建watchpoint的时候expr求值出现问题\n");
     printf("Create watchpoint No.%d success.\n", p -> NO);
 }
 
@@ -113,7 +115,7 @@ bool check_watchpoints() {
 
     while (current_wp != NULL) {  // 循环条件设置为新建的监视点不为head的下一个监视点  
         bool success = false; 
-        printf("urrent_wp->expr: %s",current_wp->expr);
+        printf("urrent_wp->expr: %s\n",current_wp->expr);
         word_t current_value = expr(current_wp->expr, &success);  // 调用expr()函数计算表达式的值  
         
         if (success) {  
