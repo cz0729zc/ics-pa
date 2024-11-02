@@ -118,7 +118,7 @@ bool check_watchpoints() {
         if (success) {  
             if (current_value != current_wp->old_value) {  // 如果表达式的值发生变化  
                 printf("触发监视点\n");
-                printf("Watchpoint triggered: No.%d, expr=\"%s\", old_value=%d, new_value=%d\n",  
+                printf("Watchpoint triggered: No.%d, expr=\"%s\", old_value=0x%08x, new_value=0x%08x\n",  
                         current_wp->NO, current_wp->expr, current_wp->old_value, current_value);  
                 current_wp->old_value = current_value;  // 更新旧值  
                 any_changed = true;  // 标记有变化  
