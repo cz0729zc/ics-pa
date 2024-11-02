@@ -97,15 +97,16 @@ void create_watchpoint(char* args){
     WP* p =  new_wp();
     strcpy(p -> expr, args);
 
-    if(head == NULL){
-        head = p;
-    }
-
     bool success = false;
     int tmp = expr(p -> expr,&success);
     if(success) p -> old_value = tmp;
     else printf("创建watchpoint的时候expr求值出现问题\n");
     printf("Create watchpoint No.%d success.\n", p -> NO);
+
+    if(head == NULL){
+        head = p;
+    }
+    
 }
 
 bool check_watchpoints() {  
