@@ -468,7 +468,7 @@ int get_operator_priority(int type) {
 
 
 uint32_t eval(int p, int q) {
-	printf("Entering eval with p=%d, q=%d\n", p, q);
+	//printf("Entering eval with p=%d, q=%d\n", p, q);
     if (p > q) {
         /* Bad expression */
         assert(0);
@@ -525,7 +525,7 @@ uint32_t eval(int p, int q) {
             printf("No operator found.\n");
             assert(0);
         }*/
-        printf("op position is %d\n", op);
+        //printf("op position is %d\n", op);
         int  op_type = tokens[op].type;
         // 递归处理剩余的部分
         uint32_t val1 = 0;
