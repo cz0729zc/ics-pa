@@ -27,7 +27,7 @@ typedef struct watchpoint {
     int new_value;
     int old_value;
 } WP;
-
+//设置静态可以使变量在整个程序
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
@@ -57,6 +57,7 @@ WP* new_wp(){
     assert(0);
     return NULL;
 }
+
 void free_wp(WP *wp){
     if(head -> NO == wp -> NO){
         head -> flag = false;
@@ -86,6 +87,7 @@ void sdb_watchpoint_display(){
     }
     if(flag) printf("No watchpoint now.\n");
 }
+
 void delete_watchpoint(int no){
     for(int i = 0 ; i < NR_WP ; i ++)
         if(wp_pool[i].NO == no){
