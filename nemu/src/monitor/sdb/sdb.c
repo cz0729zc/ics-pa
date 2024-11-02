@@ -160,13 +160,10 @@ int is_hex(const char* str) {
 }  
 
 static int cmd_x(char *args){
-	  printf("args = %s\n", args);
+	  
     char* n = strtok(args," ");  
-    printf("n = %s\n", n);
     
     char* baseaddr = strtok(NULL," ");
-    printf("baseaddr = %s\n", baseaddr);
-    
     //检查格式
     if (n == NULL || baseaddr == NULL) {  
         printf("格式: x <length> <address>\n");  
@@ -182,10 +179,13 @@ static int cmd_x(char *args){
     int len = 0;
     paddr_t addr = 0;
     sscanf(n, "%d", &len);
-    printf("len = %d\n", len);
-    
     sscanf(baseaddr,"%x", &addr);
-    printf("addr = 0x%x\n", addr);
+
+    //printf("args = %s\n", args);
+    //printf("n = %s\n", n);
+    //printf("baseaddr = %s\n", baseaddr);
+    //printf("len = %d\n", len);
+    //printf("addr = 0x%x\n", addr);
     
     for(int i = 0 ; i < len ; i++)
     {

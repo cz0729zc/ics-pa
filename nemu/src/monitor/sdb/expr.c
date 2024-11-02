@@ -329,43 +329,8 @@ static bool make_token(char *e) {
     	    //printf("Value : %s\n",tokens[i].str);           
         }
     }
-    //对-1进行处理
-    for(int i = 0 ; i < tokens_len ; i ++)
-    {
-		if (tokens[i].type == '-' && (i == 0 || (i > 0 && (tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != ')'))) && (i + 1 < tokens_len && tokens[i + 1].type == TK_DECIMAL))		
-		{
-			//printf("处理负数\n");
-            tokens[i].type = TK_NOTYPE;  
-            // 将下一个数字前添加负号  
-            for (int j = strlen(tokens[i + 1].str); j >= 0; j--) {  
-                tokens[i + 1].str[j + 1] = tokens[i + 1].str[j]; // 向后移一位  
-            }  
-            tokens[i + 1].str[0] = '-'; // 添加负号  
-            tokens[i + 1].type = TK_DECIMAL; // 设置为负数  
-            
-            //tokens_len--; // 更新 tokens 的数量 
-            
-            // 更新 tokens 的数量 
-			for(int j = 0;j < tokens_len; j ++){ 
-				if(tokens[j].type == TK_NOTYPE)
-				{
-				  for(int k = j+1; k < tokens_len;k ++){
-					tokens[k - 1] = tokens[k];
-				  }
-				  tokens_len --;
-				  nr_token--;   //全局变量也要减
-				}
-			}
-            
-            //输出token长度和token
-			//printf("Tokens length: %d\n", tokens_len);  
-			//for (int i = 0; i < tokens_len; i++) {  
-			//	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
-			//}
-		}
-    }
+
     //对*指针进行预处理
-    
 	for (int i = 0; i < tokens_len; i++) {
 		// 判断当前的 '*' 是指针解引用
 		if ((tokens[i].type == '*' && i > 0 &&
@@ -401,14 +366,53 @@ static bool make_token(char *e) {
 		    i--;  // 回退索引以重新检查移动后的 token
 		}
 	}
-            // //输出token长度和token
-			// printf("Tokens length: %d\n", tokens_len);  
-			// for (int i = 0; i < tokens_len; i++) {  
-			// 	printf("Token Type: %d, Token String: %s\n", tokens[i].type, tokens[i].str);  
-			// } 
   return true;
 }
 
+//判断负号
+bool check_negSign(int op)
+{
+    //获取tokens长度
+    int tokens_len = 0;
+    for(int i = 0 ; i < 30 ; i ++)
+    {
+	if(tokens[i].type == 0)
+	    break;
+	tokens_len ++;
+    }
+    //对-1进行处理
+    if (tokens[op].type == '-' && (op == 0 || (op > 0 && (tokens[op-1].type != TK_DECIMAL && tokens[op-1].type != ')'))) && (op + 1 < tokens_len && tokens[op + 1].type == TK_DECIMAL))		
+    {
+        //printf("处理负数\n");
+        tokens[op].type = TK_NOTYPE;  
+        // 将下一个数字前添加负号  
+        for (int j = strlen(tokens[op + 1].str); j >= 0; j--) {  
+            tokens[op + 1].str[j + 1] = tokens[op + 1].str[j]; // 向后移一位  
+        }  
+        tokens[op + 1].str[0] = '-'; // 添加负号  
+        tokens[op + 1].type = TK_DECIMAL; // 设置为负数  
+        
+        //tokens_len--; // 更新 tokens 的数量 
+        
+        // 更新 tokens 的数量 
+        for(int j = 0;j < tokens_len; j ++){ 
+            if(tokens[j].type == TK_NOTYPE)
+            {
+                for(int k = j+1; k < tokens_len;k ++){
+                tokens[k - 1] = tokens[k];
+                }
+                tokens_len --;
+                nr_token--;   //全局变量也要减
+            }
+        }
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
 
 bool check_parentheses(int p, int q)
 {
@@ -553,7 +557,10 @@ uint32_t eval(int p, int q) {
                 return val1 - val2;
             case '*':
             	//printf("使用乘法\n");
-                return val1 * val2;
+                if (!check_negSign(op))
+                {
+                    return val1 * val2;
+                }
             case '/':
                 if(val2 == 0){
                 	printf("division can't zero;\n");
