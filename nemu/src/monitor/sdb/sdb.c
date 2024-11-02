@@ -161,31 +161,31 @@ int is_hex(const char* str) {
 
 static int cmd_x(char *args){
 	  printf("args = %s\n", args);
-    // char* n = strtok(args," ");  
-    // printf("n = %s\n", n);
+    char* n = strtok(args," ");  
+    printf("n = %s\n", n);
     
-    // char* baseaddr = strtok(NULL," ");
-    // printf("baseaddr = %s\n", baseaddr);
+    char* baseaddr = strtok(NULL," ");
+    printf("baseaddr = %s\n", baseaddr);
     
-    // //检查格式
-    // if (n == NULL || baseaddr == NULL) {  
-    //     printf("格式: x <length> <address>\n");  
-    //     return -1; // 参数不足  
-    // }  
+    //检查格式
+    if (n == NULL || baseaddr == NULL) {  
+        printf("格式: x <length> <address>\n");  
+        return -1; // 参数不足  
+    }  
     
-    // // 检查地址格式是否为有效的十六进制数  
-    // if (!is_hex(baseaddr)) {  
-    //     printf("Invalid hexadecimal address: %s\n", baseaddr);  
-    //     return -1; // 地址无效  
-    // } 
+    // 检查地址格式是否为有效的十六进制数  
+    if (!is_hex(baseaddr)) {  
+        printf("Invalid hexadecimal address: %s\n", baseaddr);  
+        return -1; // 地址无效  
+    } 
     
-    // int len = 0;
-    // paddr_t addr = 0;
-    // sscanf(n, "%d", &len);
-    // printf("len = %d\n", len);
+    int len = 0;
+    paddr_t addr = 0;
+    sscanf(n, "%d", &len);
+    printf("len = %d\n", len);
     
-    // sscanf(baseaddr,"%x", &addr);
-    // printf("addr = 0x%x\n", addr);
+    sscanf(baseaddr,"%x", &addr);
+    printf("addr = 0x%x\n", addr);
     
     // for(int i = len ; i > 0 ; i --)
     // {
