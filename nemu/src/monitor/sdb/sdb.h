@@ -20,4 +20,9 @@
 
 word_t expr(char *e, bool *success);
 
+void sdb_watchpoint_display();
+
+void delete_watchpoint(int no);
+
+void create_watchpoint(char* args);
 #endif

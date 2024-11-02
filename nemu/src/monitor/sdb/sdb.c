@@ -70,11 +70,6 @@ static int cmd_d(char* args);
 
 static int cmd_test(char* args);
 
-void sdb_watchpoint_display();
-
-void delete_watchpoint(int no);
-
-void create_watchpoint(char* args);
 
 static struct {
   const char *name;
