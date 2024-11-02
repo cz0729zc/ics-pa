@@ -14,14 +14,18 @@
 ***************************************************************************************/
 
 #include <cpu/cpu.h>
+#include "../../monitor/sdb/sdb.h"
 
 void sdb_mainloop();
+
+void init_wp_pool();
 
 void engine_start() {
 #ifdef CONFIG_TARGET_AM
   cpu_exec(-1);
 #else
   /* Receive commands from user. */
+  init_wp_pool();
   sdb_mainloop();
 #endif
 }
