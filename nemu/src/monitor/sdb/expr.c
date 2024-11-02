@@ -104,14 +104,16 @@ static Token tokens[1024] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 int char_int(char s[]){
-    int s_size = strlen(s);
-    int res = 0 ;
-    for(int i = 0 ; i < s_size ; i ++)
-    {
-	res += s[i] - '0';
-	res *= 10;
+    int res = 0;
+    for (int i = 0; s[i] != '\0'; i++) {
+        // 仅处理数字字符
+        if (s[i] >= '0' && s[i] <= '9') {
+            res = res * 10 + (s[i] - '0');
+        } else {
+            printf("无效输入");
+            return -1; // 表示无效输入
+        }
     }
-    res /= 10;
     return res;
 }
 
@@ -367,7 +369,7 @@ static bool make_token(char *e) {
 		// 判断当前的 '*' 是指针解引用
 		if ((tokens[i].type == '*' && i > 0 &&
 		     tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER && tokens[i-1].type != ')' &&
-		     (tokens[i+1].type == TK_DECIMAL || tokens[i+1].type == HEX)) 
+		     (tokens[i+1].type == RESGISTER || tokens[i+1].type == HEX || tokens[i+1].type == '(')) 
 		    || 
 		    (tokens[i].type == '*' && i == 0)) {
 		    
@@ -376,11 +378,14 @@ static bool make_token(char *e) {
 
 		    // 获取 '*' 后的数字或地址值，并进行解引用
 		    int tmp = char_int(tokens[i+1].str); // 将数字或地址字符串转为整数
+            printf("tmp: %d\n",tmp);
 		    uintptr_t addr = (uintptr_t)tmp;     // 将整数转换为指针地址
-		    unsigned long value = *((unsigned long*)addr); // 解引用该地址
-
+            printf("addr: 0x%08lx\n",addr);
+		    word_t value = *((word_t*)addr); // 解引用该地址
+            printf("value: 0x%08x\n",value);
 		    // 将解引用后的值转换为字符串，存储在 tokens[i+1]
 		    unsigned_long_char(value, tokens[i+1].str); // 将值写回 tokens[i+1]
+            printf("value: %s\n",tokens[i+1].str);
 
 		    // 删除 `*` 这个 token，并调整数组长度
 		    for (int j = i; j < tokens_len - 1; j++) {
