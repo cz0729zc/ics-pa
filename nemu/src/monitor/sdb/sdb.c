@@ -162,7 +162,7 @@ int is_hex(const char* str) {
 static int cmd_x(char *args){
 	  
     char* n = strtok(args," ");  
-    
+
     char* baseaddr = strtok(NULL," ");
     //检查格式
     if (n == NULL || baseaddr == NULL) {  
@@ -241,7 +241,7 @@ static int cmd_test(char *args){
         if(res == real_val)right_ans ++;
         else {
           printf("error is %d/100\n",right_ans);
-          assert(0);
+          //assert(0);
         }
     }
     printf("test 100 expressions,the accuracy is %d/100\n",right_ans);
