@@ -116,7 +116,7 @@ bool check_watchpoints() {
 
     bool any_changed = false;  // 用于标记是否有监视点的值发生变化  
 
-    while (current_wp != NULL) {  // 循环条件设置为新建的监视点不为head的下一个监视点  
+    while (current_wp->flag != false) {  // 循环条件设置为新建的监视点不为head的下一个监视点  
         bool success = false; 
         printf("current_wp->expr: %s\n",current_wp->expr);
         word_t current_value = expr(current_wp->expr, &success);  // 调用expr()函数计算表达式的值  
