@@ -160,12 +160,12 @@ int is_hex(const char* str) {
 }  
 
 static int cmd_x(char *args){
-	//printf("args = %s\n", args);
+	  printf("args = %s\n", args);
     char* n = strtok(args," ");  
-    //printf("n = %s\n", n);
+    printf("n = %s\n", n);
     
     char* baseaddr = strtok(NULL," ");
-    //printf("baseaddr = %s\n", baseaddr);
+    printf("baseaddr = %s\n", baseaddr);
     
     //检查格式
     if (n == NULL || baseaddr == NULL) {  
