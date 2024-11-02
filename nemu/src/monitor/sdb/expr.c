@@ -330,42 +330,42 @@ static bool make_token(char *e) {
         }
     }
 
-    //对*指针进行预处理
-	for (int i = 0; i < tokens_len; i++) {
-		// 判断当前的 '*' 是指针解引用
-		if ((tokens[i].type == '*' && i > 0 &&
-		     tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER && tokens[i-1].type != ')' &&
-		     (tokens[i+1].type == RESGISTER || tokens[i+1].type == HEX || tokens[i+1].type == '(')) 
-		    || 
-		    (tokens[i].type == '*' && i == 0)) {
+    // //对*指针进行预处理
+	// for (int i = 0; i < tokens_len; i++) {
+	// 	// 判断当前的 '*' 是指针解引用
+	// 	if ((tokens[i].type == '*' && i > 0 &&
+	// 	     tokens[i-1].type != TK_DECIMAL && tokens[i-1].type != HEX && tokens[i-1].type != RESGISTER && tokens[i-1].type != ')' &&
+	// 	     (tokens[i+1].type == RESGISTER || tokens[i+1].type == HEX || tokens[i+1].type == '(')) 
+	// 	    || 
+	// 	    (tokens[i].type == '*' && i == 0)) {
 		    
-		    // 将 '*' 标记为不需要的 token，准备移除
-		    tokens[i].type = TK_NOTYPE;
+	// 	    // 将 '*' 标记为不需要的 token，准备移除
+	// 	    tokens[i].type = TK_NOTYPE;
 
-		    // 获取 '*' 后的数字或地址值，并进行解引用
-		    int tmp = char_int(tokens[i+1].str); // 将数字或地址字符串转为整数
-            //printf("tmp: %u\n",tmp);
+	// 	    // 获取 '*' 后的数字或地址值，并进行解引用
+	// 	    int tmp = char_int(tokens[i+1].str); // 将数字或地址字符串转为整数
+    //         //printf("tmp: %u\n",tmp);
 
-		    paddr_t addr = (word_t)tmp;     // 将整数转换为指针地址
-            //printf("addr: 0x%08x\n",addr);
+	// 	    paddr_t addr = (word_t)tmp;     // 将整数转换为指针地址
+    //         //printf("addr: 0x%08x\n",addr);
 
-		    word_t value = paddr_read(addr,4); // 解引用该地址
-            //printf("value: 0x%08x\n",value);
+	// 	    word_t value = paddr_read(addr,4); // 解引用该地址
+    //         //printf("value: 0x%08x\n",value);
 
-		    // 将解引用后的值转换为字符串，存储在 tokens[i+1]
-		    unsigned_long_char(value, tokens[i+1].str); // 将值写回 tokens[i+1]
-            //printf("tokens[i+1].str: %s\n",tokens[i+1].str);
+	// 	    // 将解引用后的值转换为字符串，存储在 tokens[i+1]
+	// 	    unsigned_long_char(value, tokens[i+1].str); // 将值写回 tokens[i+1]
+    //         //printf("tokens[i+1].str: %s\n",tokens[i+1].str);
 
-		    // 删除 `*` 这个 token，并调整数组长度
-		    for (int j = i; j < tokens_len - 1; j++) {
-		        tokens[j] = tokens[j + 1];  // 将后续 token 向前移动
-		    }
-		    tokens_len--;   // 更新 token 长度
-		    nr_token--;     // 更新 token 总数
+	// 	    // 删除 `*` 这个 token，并调整数组长度
+	// 	    for (int j = i; j < tokens_len - 1; j++) {
+	// 	        tokens[j] = tokens[j + 1];  // 将后续 token 向前移动
+	// 	    }
+	// 	    tokens_len--;   // 更新 token 长度
+	// 	    nr_token--;     // 更新 token 总数
 
-		    i--;  // 回退索引以重新检查移动后的 token
-		}
-	}
+	// 	    i--;  // 回退索引以重新检查移动后的 token
+	// 	}
+	// }
   return true;
 }
 
@@ -374,7 +374,6 @@ bool check_negSign(int op)
 {
     if (tokens[op].type == '-' && (op == 0 || (op > 0 && (tokens[op-1].type != TK_DECIMAL && tokens[op-1].type != ')'))) && (tokens[op + 1].type == TK_DECIMAL))		
     {
-
         //tokens_len--; // 更新 tokens 的数量 
         return true;
     }
@@ -382,7 +381,19 @@ bool check_negSign(int op)
     {
         return false;
     }
+}
 
+bool check_dereference(int op)
+{
+    if ((tokens[op].type == '*' && op > 0 &&
+            tokens[op-1].type != TK_DECIMAL && tokens[op-1].type != HEX && tokens[op-1].type != RESGISTER && tokens[op-1].type != ')' &&
+            (tokens[op+1].type == RESGISTER || tokens[op+1].type == HEX || tokens[op+1].type == '(')) 
+        || 
+        (tokens[op].type == '*' && op == 0)){
+            return true;
+        }
+    else
+    return false;
 }
 
 bool check_parentheses(int p, int q)
@@ -537,9 +548,9 @@ uint32_t eval(int p, int q) {
                 return val1 - val2;
             case '*':
             	//printf("使用乘法\n");
-                if (!check_negSign(op))
+                if (check_dereference(op) && op!=0)
                 {
-                    return val1 * val2;
+                    return val2;
                 }
             case '/':
                 if(val2 == 0){
