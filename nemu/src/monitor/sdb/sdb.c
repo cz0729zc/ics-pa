@@ -182,10 +182,10 @@ static int cmd_x(char *args){
     int len = 0;
     paddr_t addr = 0;
     sscanf(n, "%d", &len);
-    //printf("len = %d\n", len);
+    printf("len = %d\n", len);
     
     sscanf(baseaddr,"%x", &addr);
-    //printf("addr = 0x%x\n", addr);
+    printf("addr = 0x%x\n", addr);
     
     for(int i = len ; i > 0 ; i --)
     {
