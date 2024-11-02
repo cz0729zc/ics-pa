@@ -95,6 +95,7 @@ void delete_watchpoint(int no){
             return ;
         }
 }
+
 void create_watchpoint(char* args){
     WP* p =  new_wp();
     strcpy(p -> expr, args);
@@ -105,4 +106,28 @@ void create_watchpoint(char* args){
     printf("Create watchpoint No.%d success.\n", p -> NO);
 }
 
+bool check_watchpoints() {  
+    WP* current_wp = head;  // 新建一个监视点结构体，并将其设为监视点池中的第一个监视点  
 
+    bool any_changed = false;  // 用于标记是否有监视点的值发生变化  
+
+    while (current_wp != NULL) {  // 循环条件设置为新建的监视点不为head的下一个监视点  
+        bool success = false;  
+        word_t current_value = expr(current_wp->expr, &success);  // 调用expr()函数计算表达式的值  
+        
+        if (success) {  
+            if (current_value != current_wp->old_value) {  // 如果表达式的值发生变化  
+                printf("触发监视点\n");
+                printf("Watchpoint triggered: No.%d, expr=\"%s\", old_value=%d, new_value=%d\n",  
+                        current_wp->NO, current_wp->expr, current_wp->old_value, current_value);  
+                current_wp->old_value = current_value;  // 更新旧值  
+                any_changed = true;  // 标记有变化  
+            }  
+        } else {  
+            printf("Error evaluating expression for watchpoint No.%d\n", current_wp->NO);  
+        }  
+
+        current_wp = current_wp->next;  // 将监视点设置为下一个监视点  
+    }  
+    return any_changed;  // 返回是否有监视点的值发生变化  
+}
