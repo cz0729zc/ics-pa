@@ -379,17 +379,17 @@ static bool make_token(char *e) {
 
 		    // 获取 '*' 后的数字或地址值，并进行解引用
 		    int tmp = char_int(tokens[i+1].str); // 将数字或地址字符串转为整数
-            printf("tmp: %u\n",tmp);
+            //printf("tmp: %u\n",tmp);
 
 		    paddr_t addr = (word_t)tmp;     // 将整数转换为指针地址
-            printf("addr: 0x%08x\n",addr);
+            //printf("addr: 0x%08x\n",addr);
 
 		    word_t value = paddr_read(addr,4); // 解引用该地址
-            printf("value: 0x%08x\n",value);
+            //printf("value: 0x%08x\n",value);
 
 		    // 将解引用后的值转换为字符串，存储在 tokens[i+1]
 		    unsigned_long_char(value, tokens[i+1].str); // 将值写回 tokens[i+1]
-            printf("value: %s\n",tokens[i+1].str);
+            //printf("tokens[i+1].str: %s\n",tokens[i+1].str);
 
 		    // 删除 `*` 这个 token，并调整数组长度
 		    for (int j = i; j < tokens_len - 1; j++) {
