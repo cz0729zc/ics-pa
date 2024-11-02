@@ -134,6 +134,7 @@ bool check_watchpoints() {
         }  
 
         current_wp = current_wp->next;  // 将监视点设置为下一个监视点  
+        printf("flag: %d\n",current_wp->flag);
     }  
     return any_changed;  // 返回是否有监视点的值发生变化  
 }
