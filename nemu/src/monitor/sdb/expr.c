@@ -525,8 +525,10 @@ uint32_t eval(int p, int q) {
             case '+':
                 return val1 + val2;
             case '-':
-                if(check_negSign(op))
+                if(check_negSign(op) && op!=0 )
                 return val1 + val2;
+                else if(check_negSign(op) && op==0 )
+                return val2;
                 else
                 return val1 - val2;
             case '*':
