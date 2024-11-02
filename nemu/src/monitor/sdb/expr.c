@@ -529,7 +529,7 @@ uint32_t eval(int p, int q) {
         int  op_type = tokens[op].type;
         // 递归处理剩余的部分
         uint32_t val1 = 0;
-        if (op!=0)
+        if (op-p!=0)
         {
             val1 = eval(p, op - 1);
         }
