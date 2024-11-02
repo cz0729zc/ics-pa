@@ -468,7 +468,7 @@ int get_operator_priority(int type) {
 
 
 uint32_t eval(int p, int q) {
-	printf("Entering eval with p=%d, q=%d\n", p, q);
+	//printf("Entering eval with p=%d, q=%d\n", p, q);
     if (p > q) {
         /* Bad expression */
         assert(0);
@@ -554,7 +554,7 @@ uint32_t eval(int p, int q) {
                 }
                 else if (check_dereference(op) && op==0)
                 {
-                    //printf("val2 : 0x%08x\n",val2);
+                    printf("val2 : 0x%08x\n",val2);
                     return paddr_read(val2,4);
                 }
                 else
