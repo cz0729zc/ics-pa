@@ -550,7 +550,15 @@ uint32_t eval(int p, int q) {
             	//printf("使用乘法\n");
                 if (check_dereference(op) && op!=0)
                 {
-                    return val2;
+                    return paddr_read(val2,4);
+                }
+                else if (check_negSign(op) && op==0)
+                {
+                    return paddr_read(val2,4);
+                }
+                else
+                {
+                    return val1 * val2;
                 }
             case '/':
                 if(val2 == 0){
